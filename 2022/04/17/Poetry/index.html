@@ -16,21 +16,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="流是什么： 流是支持数据处理操作的源生成的元素序列，源可以是数组、文件、集合、函数。流不是数据结构并不保存数据，它的主要目的在于计算。   流的生成： 通过集合生成：Stream&lt;Integer&gt; steam&#x3D;new ArrayList&lt;Integer&gt;().stream();  通过数组生成：IntStream stream&#x3D;Arrays.stream(new int[">
+    <meta name="description" content="时时灌溉，常教玉树气回根。                                日日栽培，莫使金花精脱蒂。                                                          保神养气谓之精，情性原来一禀形。                             心乱神昏诸病作，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Stream in Java">
-<meta property="og:url" content="http://example.com/2022/04/12/Stream-in-Java/index.html">
+<meta property="og:title" content="Poetry(1)">
+<meta property="og:url" content="http://example.com/2022/04/17/Poetry/index.html">
 <meta property="og:site_name" content="Meditions">
-<meta property="og:description" content="流是什么： 流是支持数据处理操作的源生成的元素序列，源可以是数组、文件、集合、函数。流不是数据结构并不保存数据，它的主要目的在于计算。   流的生成： 通过集合生成：Stream&lt;Integer&gt; steam&#x3D;new ArrayList&lt;Integer&gt;().stream();  通过数组生成：IntStream stream&#x3D;Arrays.stream(new int[">
+<meta property="og:description" content="时时灌溉，常教玉树气回根。                                日日栽培，莫使金花精脱蒂。                                                          保神养气谓之精，情性原来一禀形。                             心乱神昏诸病作，">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-11T19:29:41.000Z">
-<meta property="article:modified_time" content="2022-04-11T20:11:08.626Z">
+<meta property="article:published_time" content="2022-04-17T11:43:44.000Z">
+<meta property="article:modified_time" content="2022-04-17T13:06:23.652Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Conputer Science, Java">
+<meta property="article:tag" content="Poetry">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>Stream in Java - Meditions</title>
+  <title>Poetry(1) - Meditions</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -176,7 +176,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Stream in Java">
+            <span class="h2" id="subtitle" title="Poetry(1)">
               
             </span>
 
@@ -186,8 +186,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-12 03:29" pubdate>
-        2022年4月12日 凌晨
+      <time datetime="2022-04-17 19:43" pubdate>
+        2022年4月17日 晚上
       </time>
     </span>
   
@@ -197,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      538 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      5 分钟
     </span>
   
 
@@ -243,56 +243,57 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Stream in Java</h1>
+            <h1 style="display: none">Poetry(1)</h1>
             
             <div class="markdown-body">
-              <ol>
-<li>流是什么：<ol>
-<li>流是支持数据处理操作的源生成的元素序列，源可以是数组、文件、集合、函数。流不是数据结构并不保存数据，它的主要目的在于计算。</li>
-</ol>
-</li>
-<li>流的生成：<ol>
-<li>通过集合生成：<code>Stream&lt;Integer&gt; steam=new ArrayList&lt;Integer&gt;().stream();</code> </li>
-<li>通过数组生成：<code>IntStream stream=Arrays.stream(new int[]&#123;1,2,3&#125;);</code></li>
-<li>通过值生成：<code>Stream&lt;Integer&gt; stream=Stream.of(1,2,3,4,5,6);</code></li>
-<li>通过文件生成：<code>Stream&lt;Integer&gt; stream=Files.lines(Paths.get(&quot;data.txt&quot;), Charset.defaultCharset());</code></li>
-<li>通过函数生成：<code>Stream&lt;Integer&gt; stream=Stream.iterate(0, n-&gt;n+2).limit(5);</code>iterate()方法 接受两个参数，第一个是初始化值，第二个为进行的函数操作，因为iterate生成的是无限流，通过limit方法对流进行了截断；</li>
-<li>generator：<code>Stream&lt;Double&gt; stream=Stream.generate(Math::random).limit(5);</code></li>
-</ol>
-</li>
-<li>流的操作类型：<ol>
-<li><p>中间操作：</p>
-<ol>
-<li>filter：条件筛选  <figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">List</span>&lt;Integer&gt; list=Arrays.asList(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>);<br><span class="hljs-attribute">Stream</span>&lt;Integer&gt; stream=list.stream().filter(i-&gt;i&gt;<span class="hljs-number">3</span>);<br><span class="hljs-attribute">result</span>:<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span><br></code></pre></td></tr></table></figure></li>
-<li>distinct：去除重复元素；</li>
-<li>limit：返回指定流的个数；</li>
-<li>skip：跳过流中的元素；</li>
-<li>map：流映射——将接受的元素映射为另一个元素  <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">String</span><span class="hljs-operator">&gt;</span> <span class="hljs-variable">list</span><span class="hljs-operator">=</span><span class="hljs-built_in">Arrays</span><span class="hljs-operator">.</span><span class="hljs-variable">asList</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Java 8&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;Lambdas&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;In&quot;</span><span class="hljs-operator">,</span><span class="hljs-string">&quot;Action&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br><span class="hljs-built_in">List</span><span class="hljs-operator">&lt;</span><span class="hljs-built_in">Integer</span><span class="hljs-operator">&gt;</span> <span class="hljs-variable">length</span><span class="hljs-operator">=</span><span class="hljs-variable">list</span><span class="hljs-operator">.</span><span class="hljs-variable">stream</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-operator">.</span><span class="hljs-variable">map</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">String</span><span class="hljs-string">::length</span><span class="hljs-punctuation">)</span><span class="hljs-operator">.</span><span class="hljs-variable">collect</span><span class="hljs-punctuation">(</span><span class="hljs-variable">Collectors</span><span class="hljs-operator">.</span><span class="hljs-variable">toList</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-operator">;</span><br><span class="hljs-variable">result</span><span class="hljs-operator">:</span><span class="hljs-punctuation">[</span><span class="hljs-number">6</span><span class="hljs-operator">,</span><span class="hljs-number">7</span><span class="hljs-operator">,</span><span class="hljs-number">2</span><span class="hljs-operator">,</span><span class="hljs-number">6</span><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure></li>
-<li>flatMap：流转换——将一个流中的每个值都转换为另一个流；</li>
-<li>allMatch：匹配所有元素  <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">List&lt;Integer&gt; <span class="hljs-built_in">list</span>=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Arrays</span>.</span></span><span class="hljs-keyword">as</span><span class="hljs-constructor">List(1,2,3,4,5)</span>;<br><span class="hljs-built_in">list</span>.stram<span class="hljs-literal">()</span>.all<span class="hljs-constructor">Match(<span class="hljs-params">i</span>-&gt;<span class="hljs-params">i</span>&gt;3)</span>;<br>result:<span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure></li>
-<li>anyMatch：匹配一个元素</li>
-<li>noneMatch：全部不匹配</li>
-</ol>
-</li>
-<li><p>终端操作：</p>
-<ol>
-<li>count：计算流中元素个数；</li>
-<li>findFirst：查找第一个；</li>
-<li>findAny：随机查找一个；</li>
-<li>reduce：将流中的元素组合<ol>
-<li>用于求和<code>int sum=list.stream().reduce(0, Integer::sum);</code></li>
-</ol>
-</li>
-<li>min&#x2F;max：获取最大最小值；</li>
-<li>sum：求和；</li>
-<li>averagingXXX：求平均值；</li>
-<li>forEach：遍历</li>
-<li>joining拼接流中的元素 <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-built_in">String</span> result=<span class="hljs-built_in">list</span>.stream().<span class="hljs-built_in">map</span>(<span class="hljs-built_in">String</span><span class="hljs-type">::toLowerCase</span>).collect(Collectors.joining(<span class="hljs-string">&quot;-&quot;</span>));<br></code></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
+              <div class="code-wrapper"><pre><code class="hljs">                               时时灌溉，常教玉树气回根。
+                               日日栽培，莫使金花精脱蒂。
+                            
+                            保神养气谓之精，情性原来一禀形。
+                            心乱神昏诸病作，形衰精败道元倾。
+                            三花不就空劳碌，四大萧条枉费争。
+                            土木无功金水绝，法身疏懒几时成！
+
+                            归根复命是还丹，养到纯阳再换坛。
+                            不晓个中消息意，圣基虽入道难完。
+
+                            阳极阴生姤即连，此中消息要师传。
+                            含章在内神功妙，知者夺来造化权。
+
+                            金液还丹教外传，五行四象火功全。
+                            求师诀破其中奥，了悟源流好上船。
+
+                            人生在世是浮沤，背理违天谁肯休。
+                            任尔堆金多积玉，怎能买得命长留。
+
+                            存诚去妄法虽良，究竟难逃生死乡。
+                            何若金丹微妙诀，超凡入圣了无常。
+
+                            火生于木本藏锋，不会钻研莫强攻。
+                            祸发总由斯害己，要须制服觅金公。
+
+                            真阳不在肾中藏，强闭阴精非妙方。
+                            会得神观微妙法，消除色欲不张遑。
+
+                            心动意迷志不专，修行往往被他牵。
+                            劝君戒惧勤防备，莫起风尘障道缘。
+
+                            大地仙乡列圣曹，蓬莱分合镇波涛。
+                            瑶台影蘸天心冷，巨阙光浮海面高。
+                            五色烟霞含玉籁，九霄星月射金鳌。
+                            西池王母常来此，奉祝三仙几次桃。
+
+                            方丈巍峨别是天，太元宫府会神仙。
+                            紫台光照三清路，花木幽浮五色烟。
+                            金凤自多槃蕊阙，玉膏谁逼灌芝田。
+                            碧桃紫李新成熟，又换仙人信万年。
+
+                            一日清闲自在仙，六神和合保平安。
+                            丹田有宝休寻道，对境无心莫问禅。
+
+                            弃却瓢囊摵碎琴，如今不恋水中金。
+                            自从一见黄龙后，始觉从前错用心。
+</code></pre></div>
 
             </div>
             <hr>
@@ -303,7 +304,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Conputer-Science-Java/">Conputer Science, Java</a>
+                      <a class="hover-with-bg" href="/tags/Poetry/">Poetry</a>
                     
                   </div>
                 
@@ -320,18 +321,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/17/Graham-Scan/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Graham-Scan</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/10/Recursion-and-iteration/">
-                        <span class="hidden-mobile">Recursion and iteration</span>
+                      <a href="/2022/04/17/Graham-Scan/">
+                        <span class="hidden-mobile">Graham-Scan</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -353,8 +348,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://example.com/2022/04/12/Stream-in-Java/';
-          this.page.identifier = '/2022/04/12/Stream-in-Java/';
+          this.page.url = 'http://example.com/2022/04/17/Poetry/';
+          this.page.identifier = '/2022/04/17/Poetry/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
