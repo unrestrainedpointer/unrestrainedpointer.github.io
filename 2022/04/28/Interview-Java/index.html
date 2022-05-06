@@ -16,19 +16,39 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="http://example.com/archives/2022/index.html">
+    <meta name="description" content="ConcurrentHashMap原理：HashMap是线程不安全的，ConcurrentHashMap采用分段锁技术将数据分段存储，每段分配一个锁。  存储结构： Segments数组：数组的每个元素是一个segment数组——存储元素，segment内部存在竟态条件，同时访问一个segment的时候才会抢占锁； 一个Segment相当于一个小的hashmap，里边的table数组继承自Ree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Interview Java">
+<meta property="og:url" content="http://example.com/2022/04/28/Interview-Java/index.html">
 <meta property="og:site_name" content="Meditions">
+<meta property="og:description" content="ConcurrentHashMap原理：HashMap是线程不安全的，ConcurrentHashMap采用分段锁技术将数据分段存储，每段分配一个锁。  存储结构： Segments数组：数组的每个元素是一个segment数组——存储元素，segment内部存在竟态条件，同时访问一个segment的时候才会抢占锁； 一个Segment相当于一个小的hashmap，里边的table数组继承自Ree">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-28T04:23:34.000Z">
+<meta property="article:modified_time" content="2022-04-28T06:20:49.514Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Science">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>归档 - Meditions</title>
+  <title>Interview Java - Meditions</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -55,7 +75,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -151,14 +171,56 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/bg/bg2.jpg') no-repeat center center;
+         style="background: url('/img/bg/Evariste_galois.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="Interview Java">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-28 12:23" pubdate>
+        2022年4月28日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      480 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      5 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
 
             
           </div>
@@ -171,100 +233,138 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 13 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2022</p>
-    
-    <a href="/2022/04/28/Interview-Sort-Algorithm/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Interview Sort Algorithm</span>
-      <time style="float: right;">04-28</time>
-    </a>
-  
-    
-    <a href="/2022/04/28/Interview-Java/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Interview Java</span>
-      <time style="float: right;">04-28</time>
-    </a>
-  
-    
-    <a href="/2022/04/23/Interview-Database(1)/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Interview-Database</span>
-      <time style="float: right;">04-23</time>
-    </a>
-  
-    
-    <a href="/2022/04/23/Interview-Database/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Interview-Database</span>
-      <time style="float: right;">04-23</time>
-    </a>
-  
-    
-    <a href="/2022/04/20/Interview-Rudimentary-Skills-of-Computer-Science(1)/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Rudimentary Skills of Computer Science</span>
-      <time style="float: right;">04-20</time>
-    </a>
-  
-    
-    <a href="/2022/04/17/Relation/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Relation</span>
-      <time style="float: right;">04-17</time>
-    </a>
-  
-    
-    <a href="/2022/04/17/Poetry/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Poetry(1)</span>
-      <time style="float: right;">04-17</time>
-    </a>
-  
-    
-    <a href="/2022/04/17/Graham-Scan/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Graham-Scan</span>
-      <time style="float: right;">04-17</time>
-    </a>
-  
-    
-    <a href="/2022/04/12/Stream-in-Java/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Stream in Java</span>
-      <time style="float: right;">04-12</time>
-    </a>
-  
-    
-    <a href="/2022/04/10/Recursion-and-iteration/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Recursion and iteration</span>
-      <time style="float: right;">04-10</time>
-    </a>
-  
-</div>
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Interview Java</h1>
+            
+            <div class="markdown-body">
+              <ol>
+<li><p>ConcurrentHashMap原理：HashMap是线程不安全的，ConcurrentHashMap采用分段锁技术将数据分段存储，每段分配一个锁。</p>
+<ol>
+<li>存储结构：<ol>
+<li>Segments数组：数组的每个元素是一个segment数组——存储元素，segment内部存在竟态条件，同时访问一个segment的时候才会抢占锁；</li>
+<li>一个Segment相当于一个小的hashmap，里边的table数组继承自ReentrantLock；</li>
+<li>JDK1.8之后，取消了segments字段，直接采用transient HashEntry&lt;K,V&gt;[] table保存数据，采用table数组元素作为锁，从而实现对每一行数据加锁，并发控制使用Synchronized和CAS加锁；</li>
+</ol>
+</li>
+<li>初始化：<ol>
+<li>除了第一行的数组，其他数组都在添加第一元素时才被初始化；</li>
+<li>第一次添加元素时初始长度为16；</li>
+<li>当添加位置冲突达到8时，如果数组长度小于64就扩容，否则链表转化为红黑树；</li>
+<li>每个数组的负载因子为0.75；</li>
+<li></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>HashTable也是线程安全的，get&#x2F;put等操作是synchronized，实现效率较低；</p>
+</li>
+<li></li>
+</ol>
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2022/page/2/#board">2</a><a class="extend next" rel="next" href="/archives/2022/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer Science</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/28/Interview-Sort-Algorithm/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Interview Sort Algorithm</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/23/Interview-Database(1)/">
+                        <span class="hidden-mobile">Interview-Database</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2022/04/28/Interview-Java/';
+          this.page.identifier = '/2022/04/28/Interview-Java/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -371,6 +471,19 @@
   
 
 
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
 
 
 

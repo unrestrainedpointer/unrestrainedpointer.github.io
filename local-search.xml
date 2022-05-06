@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>Interview Sort Algorithm</title>
+    <link href="/2022/04/28/Interview-Sort-Algorithm/"/>
+    <url>/2022/04/28/Interview-Sort-Algorithm/</url>
+    
+    <content type="html"><![CDATA[<ol><li>冒泡排序：每趟扫描都会使最大元素归位；<ol><li>不变性和单调性：经过k趟扫描之后，最大的前k个元素必然归位；经过k趟扫描交换之后，待求解问题的有效规模减小到n-k；</li><li>时间复杂度：O($n^2$)，稳定；</li></ol></li><li>插入排序：将无序后缀中的第一个元素插入到有序前缀中；<ol><li>不变性：在任何时刻，相对于当前节点e&#x3D;S[r]，前缀S[0,r)总是业已有序；</li><li>时间复杂度：O($n^2$)；</li></ol></li><li>选择排序：从无序前缀中找到最大的放到有序后缀的最前面；<ol><li>不变性：在任何时刻，后缀S(r,n)已经有序，且不小于前缀S[0,r]；</li><li>时间复杂度：$\theta(n^2)$;</li></ol></li><li>归并排序：划分到最小之后合并；<ol><li>时间复杂度：O(logn)，稳定；</li></ol></li><li>快速排序：S[low, hi)中一个轴点mi，满足S[low, mi)中的元素小于S[mi]，而S(mi, hi)中的元素大于S[mi]，因此当S转化为有序向量S&#96;后，有如下情况：<ul><li>S[mi]&#x3D;S&#96;[mi];</li><li>S[low, mi)和S&#96;[low, mi)中的元素相同；</li><li>S(mi, hi)和S&#96;(mi, hi)中的元素相同；</li></ul><ol><li>轴点构造算法partition()——快速划分算法：O(logn)；</li><li>快排平均时间复杂度：O(nlogn)；</li></ol></li><li>希尔排序：</li><li>堆排序：</li><li>计数排序：</li><li>桶排序：</li><li>基数排序：</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Computer Science</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Interview Java</title>
+    <link href="/2022/04/28/Interview-Java/"/>
+    <url>/2022/04/28/Interview-Java/</url>
+    
+    <content type="html"><![CDATA[<ol><li><p>ConcurrentHashMap原理：HashMap是线程不安全的，ConcurrentHashMap采用分段锁技术将数据分段存储，每段分配一个锁。</p><ol><li>存储结构：<ol><li>Segments数组：数组的每个元素是一个segment数组——存储元素，segment内部存在竟态条件，同时访问一个segment的时候才会抢占锁；</li><li>一个Segment相当于一个小的hashmap，里边的table数组继承自ReentrantLock；</li><li>JDK1.8之后，取消了segments字段，直接采用transient HashEntry&lt;K,V&gt;[] table保存数据，采用table数组元素作为锁，从而实现对每一行数据加锁，并发控制使用Synchronized和CAS加锁；</li></ol></li><li>初始化：<ol><li>除了第一行的数组，其他数组都在添加第一元素时才被初始化；</li><li>第一次添加元素时初始长度为16；</li><li>当添加位置冲突达到8时，如果数组长度小于64就扩容，否则链表转化为红黑树；</li><li>每个数组的负载因子为0.75；</li><li></li></ol></li></ol></li><li><p>HashTable也是线程安全的，get&#x2F;put等操作是synchronized，实现效率较低；</p></li><li></li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Computer Science</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Interview-Database</title>
     <link href="/2022/04/23/Interview-Database(1)/"/>
     <url>/2022/04/23/Interview-Database(1)/</url>
@@ -11,6 +49,25 @@
     <content type="html"><![CDATA[]]></content>
     
     
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Interview-Database</title>
+    <link href="/2022/04/23/Interview-Database/"/>
+    <url>/2022/04/23/Interview-Database/</url>
+    
+    <content type="html"><![CDATA[<ol><li>数据库三大范式：<ol><li>第一范式：列不可拆分；</li><li>第二范式：非主键依赖主键而非主键的一部分；</li><li>第三范式：非主键只依赖主键而非其他非主键；</li></ol></li><li>MySQL的binlog有几种录入格式？分别有什么区别？<ol><li>statement：只记录SQL语句而不记录每一行的变化，减少了binlog的记录量，节约了IO提高了性能；</li><li>row：记录了每一行的变化，但是文件的保存信息太多，日志量太大；</li><li>mixed：普通操作使用statement记录，无法使用statement的时候使用row；</li></ol></li><li>MyISAM索引和InnoDB索引的区别：</li><li>InnoDB引擎的4大特性：<ol><li>插入缓冲：</li><li>二次写：</li><li>自适应哈希索引：</li><li>预读：</li></ol></li><li>索引的类型：<ol><li>主键索引：数据列不允许重复，不允许为null，一个表只能有一个主键。</li><li>唯一索引：数据列不允许重复，允许为null，一个表允许多个列创建唯一索引。</li><li>普通索引，没有唯一性的限制，允许为null。</li><li>全文索引；</li></ol></li><li>最左前缀匹配原则：</li><li>聚簇索引：将数据和索引存储到一起；</li><li>非聚簇索引：数据和索引分开存放，索引的叶子节点指向数据的对应行；</li><li>联合索引：</li><li>事务：一个不可分割的数据库操作系列，也是数据库并发控制的基本单位，其执行结果必须使数据库从一种一致性状态转变为另一种一致性状态。</li><li>事务的四大特性ACID：<ol><li>原子性：事务是最小执行单位，不允许分割。</li><li>一致性：多个事务对同一个数据读取的结果是相同的；</li><li>隔离性：并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间的数据库是独立的；</li><li>持久性：事务提交后对数据库的改变是不受故障等因素影响的；</li></ol></li><li>脏读、幻读、不可重复读：<ol><li>脏读：一个事务更改数据还未提交，另一个事务在此时就读了数据；</li><li>不可重复读：一个事务在两次查询之中数据不一致；</li><li>幻读：</li></ol></li><li>事务隔离级别：为了达到事务的四大特性，数据库定义了4种不同的事务隔离别；<ol><li>Read-uncommitted：允许读取尚未提交的数据变更，可能导致脏读、不可重复读、幻读；</li><li>Read committed：允许读取并发事务已提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。</li><li>Repeatable read：可重复读，对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己修改的，可以阻止脏读和不可重复读，但幻读仍有可能发生。</li><li>Serializable：可串行化，所有事务一次逐个执行，完全符合ACID；</li></ol></li><li>隔离级别与锁的关系：<ol><li>在Read uncommitted级别下，读取数据不需要加共享锁，这样就不会跟被修改的数据上的排他锁冲突；</li><li>Read committed级别下读操作需要加共享锁，但是在语句执行完以后释放共享锁；</li><li>Repeatable Read级别下，读操作需要加共享锁，但是在事务提交之前并不释放共享锁；</li><li>Serializable：该级别锁定整个范围的键，并一直持有锁，直到事务完成；</li></ol></li><li>锁分类：<ol><li>行级锁：只针对当前操作的行进行加锁，行级锁能大大减少数据库操作的冲突。其加锁粒度最小，但开锁的开销也最大，行级锁分为共享锁和排他锁，有死锁；</li><li>表级锁：对当前操作的整张表加锁。实现简单消耗资源少。表级锁分为共享读锁和独占写锁（排他锁），开销小，加锁快，无死锁。</li><li>页级锁：粒度介于行级锁和表级锁中间的一种锁，表级锁加速快，但冲突多，行级锁冲突少，但速度慢。所以取了折中的页级，一次锁定相邻的一组记录；</li></ol></li><li>共享锁和排他锁：<ol><li>共享锁又叫读锁，当用户要进行数据的读取时对数据加上共享锁。</li><li>排他锁又叫写锁：排他锁只可以加一个，它和其他的排他锁、共享锁互斥；</li></ol></li><li>InnoDB存储引擎的锁算法有哪三种？<ol><li>Record lock：单个行记录上的锁；</li><li>Gap Lock：间隙锁，锁定一个范围，不包括记录本身；</li><li>Next-key lock：锁定一个范围包括范围本身；</li></ol></li><li>MySQL的主从复制：</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Computer Science</tag>
+      
+    </tags>
     
   </entry>
   
