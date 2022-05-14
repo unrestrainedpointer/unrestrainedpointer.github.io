@@ -16,21 +16,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="应用层 HTTP状态码： 定义：HTTP 状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型。响应分为五类：信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)； 1**为信息相应，服务器收到请求，需要请求者继续执行操作； 2**为成功响应，信息被服务器正确接收并执行； 3**为重定向，需要客户">
+    <meta name="description" content="一、JVM内存五部分组成 组成：程序计数器（线程私有）+虚拟机栈（线程私有）+本地方法区（线程私有）+堆（线程共享）+方法区&#x2F;永久代（线程共享； 程序计数器：唯一一个不会出现OOM的区域； 虚拟机栈：描述Java方法执行的内存模型，每个方法在执行的同时会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息；每一个方法从调用到执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Interview-ComputerNet">
-<meta property="og:url" content="http://example.com/2022/05/11/Interview-ComputerNet/index.html">
+<meta property="og:title" content="Interview-JVM">
+<meta property="og:url" content="http://example.com/2022/05/15/Interview-JVM/index.html">
 <meta property="og:site_name" content="Meditions">
-<meta property="og:description" content="应用层 HTTP状态码： 定义：HTTP 状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型。响应分为五类：信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)； 1**为信息相应，服务器收到请求，需要请求者继续执行操作； 2**为成功响应，信息被服务器正确接收并执行； 3**为重定向，需要客户">
+<meta property="og:description" content="一、JVM内存五部分组成 组成：程序计数器（线程私有）+虚拟机栈（线程私有）+本地方法区（线程私有）+堆（线程共享）+方法区&#x2F;永久代（线程共享； 程序计数器：唯一一个不会出现OOM的区域； 虚拟机栈：描述Java方法执行的内存模型，每个方法在执行的同时会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息；每一个方法从调用到执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-05-11T10:49:40.000Z">
-<meta property="article:modified_time" content="2022-05-13T04:02:26.862Z">
+<meta property="article:published_time" content="2022-05-14T17:02:17.000Z">
+<meta property="article:modified_time" content="2022-05-14T17:02:40.358Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Computer Science, Interview">
+<meta property="article:tag" content="Computer Science">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>Interview-ComputerNet - Meditions</title>
+  <title>Interview-JVM - Meditions</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -176,7 +176,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Interview-ComputerNet">
+            <span class="h2" id="subtitle" title="Interview-JVM">
               
             </span>
 
@@ -186,8 +186,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-05-11 18:49" pubdate>
-        2022年5月11日 晚上
+      <time datetime="2022-05-15 01:02" pubdate>
+        2022年5月15日 凌晨
       </time>
     </span>
   
@@ -197,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      596 字
+      1.6k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5 分钟
+      14 分钟
     </span>
   
 
@@ -243,47 +243,50 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Interview-ComputerNet</h1>
+            <h1 style="display: none">Interview-JVM</h1>
             
             <div class="markdown-body">
-              <ol>
-<li>应用层<ol>
-<li>HTTP状态码：<ol>
-<li>定义：HTTP 状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型。响应分为五类：信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)；</li>
-<li>1**为信息相应，服务器收到请求，需要请求者继续执行操作；</li>
-<li>2**为成功响应，信息被服务器正确接收并执行；</li>
-<li>3**为重定向，需要客户端进一步执行操作；</li>
-<li>4**为客户端错误，请求包含语法错误或无法完成请求；</li>
-<li>5**为服务器错误，服务器在处理请求过程中发生了错误；</li>
-<li>206：Partial Content——部分内容。服务器成功处理了部分GET请求；</li>
+              <h3 id="一、JVM内存五部分组成"><a href="#一、JVM内存五部分组成" class="headerlink" title="一、JVM内存五部分组成"></a>一、JVM内存五部分组成</h3><ol>
+<li>组成：程序计数器（线程私有）+虚拟机栈（线程私有）+本地方法区（线程私有）+堆（线程共享）+方法区&#x2F;永久代（线程共享；</li>
+<li>程序计数器：唯一一个不会出现OOM的区域；</li>
+<li>虚拟机栈：描述Java方法执行的内存模型，每个方法在执行的同时会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息；每一个方法从调用到执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程；<ol>
+<li>局部变量表：用于存储局部变量和方法参数；</li>
+<li>操作数栈：Java是采用基于栈的指令集而非基于寄存器的指令集；<ol>
+<li>基于栈的指令集：计算1+1的代码为：  <figure class="highlight gcode"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs gcode">ico<span class="hljs-symbol">nst_1</span><br>ico<span class="hljs-symbol">nst_1</span><br>iadd <br>istore_<span class="hljs-number">0</span> <br></code></pre></td></tr></table></figure></li>
+<li>基于寄存器的指令集：  <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">move <span class="hljs-built_in">eax</span>,  <span class="hljs-number">1</span><br><span class="hljs-keyword">add</span> <span class="hljs-built_in">eax</span>, <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
+<li>为什么要用基于栈的指令集：<ol>
+<li>可移植：寄存器由硬件直接提供，程序直接依赖这些硬件寄存器则不可避免要受硬件约束；</li>
+<li>代码相对紧凑；</li>
+<li>编译器实现更加简单，不需要考虑空间分配问题，所需空间都在栈上操作；</li>
 </ol>
 </li>
-<li>HTTP与HTTPS的区别：</li>
-<li>非对称加密和对称加密的数学基础：</li>
-<li>HTTP报文格式：<ol>
-<li>客户端请求</li>
-<li>消息：客户端发送一个HTTP请求到服务器的请求消息包括以下格式：请求行（request line）、请求头部（header）、空行和请求数据四个部分组成，其中请求行包括请求方法、URL和协议版本；</li>
-<li>HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。</li>
+<li>栈指令集的缺点：<ol>
+<li>栈架构指令集的主要缺点是执行速度相对来说会稍慢一些。所有主流物理机的指令集都是寄存器架构也从侧面印证了这一点。</li>
+<li>虽然栈架构指令集的代码非常紧凑，但是完成相同功能所需的指令数量一般会比寄存器架构多，因为出栈、入栈操作本身就产生了相当多的指令数量。</li>
+<li>更重要的是，栈实现在内存之中，频繁的栈访问也就意味着频繁的内存访问，相对于处理器来说，内存始终是执行速度的瓶颈。</li>
+<li>尽管虚拟机可以采取栈顶缓存的手段，把最常用的操作映射到寄存器中避免直接内存访问，但这也只能是优化措施而不是解决本质问题的方法。由于指令数量和内存访问的原因，所以导致了栈架构指令集的执行速度会相对较慢。</li>
 </ol>
 </li>
-<li>HTTP收发消息的具体流程：</li>
-<li>Cookie和Session以及Token：</li>
-<li>Session的设计：</li>
-<li>HTTP请求方法：</li>
+</ol>
+</li>
+<li>动态链接：在一个class文件中，一个方法要调用其他方法，需要将这些方法的符号引用转化为其在内存地址中的直接引用，而符号引用存在于方法区中的运行时常量池。Java虚拟机栈中，每个栈帧都包含一个指向运行时常量池中该栈所属方法的符号引用，持有这个引用的目的是为了支持方法调用过程中的动态连接(Dynamic Linking)。这些符号引用一部分会在类加载阶段或者第一次使用时就直接转化为直接引用，这类转化称为静态解析。另一部分将在每次运行期间转化为直接引用，这类转化称为动态连接。</li>
+<li>方法出口：当一个方法开始执行时，可能有两种方式退出该方法：<ol>
+<li>正常完成出口、异常完成出口；</li>
+<li>正常完成出口是指方法正常完成并退出，没有抛出任何异常(包括Java虚拟机异常以及执行时通过throw语句显示抛出的异常)。如果当前方法正常完成，则根据当前方法返回的字节码指令，这时有可能会有返回值传递给方法调用者(调用它的方法)，或者无返回值。具体是否有返回值以及返回值的数据类型将根据该方法返回的字节码指令确定。异常完成出口是指方法执行过程中遇到异常，并且这个异常在方法体内部没有得到处理，导致方法退出。</li>
+<li>无论方法采用何种方式退出，在方法退出后都需要返回到方法被调用的位置，程序才能继续执行，方法返回时可能需要在当前栈帧中保存一些信息，用来帮他恢复它的上层方法执行状态。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>本地方法区：native</li>
+<li>堆：对象和数组都保存在堆中；</li>
+<li>方法区：用于存储JVM加载的类信息、常量、静态变量、即使编译器编译后的代码等数据；<h3 id="二、JVM运行时内存"><a href="#二、JVM运行时内存" class="headerlink" title="二、JVM运行时内存"></a>二、JVM运行时内存</h3></li>
+<li>新生代：Eden+ServivorFrom+ServivorTo：MinorGC——复制算法</li>
+<li>老年代：MajorGC——标记清除算法；</li>
+<li>永久代：存放Class和Meta，GC不会在主程序运行期对永久区域进行处理，所以这也导致了永久代的区域会随着加载Class的增多而胀满，最终抛出OOM异常；Java8中被元空间取代，不再使用虚拟机空间而是采用系统空间；<h3 id="三、垃圾回收GC"><a href="#三、垃圾回收GC" class="headerlink" title="三、垃圾回收GC"></a>三、垃圾回收GC</h3><h3 id="四、JAVA中四种引用"><a href="#四、JAVA中四种引用" class="headerlink" title="四、JAVA中四种引用"></a>四、JAVA中四种引用</h3><h3 id="五、GC分代回收算法VS分区回收算法"><a href="#五、GC分代回收算法VS分区回收算法" class="headerlink" title="五、GC分代回收算法VS分区回收算法"></a>五、GC分代回收算法VS分区回收算法</h3><h3 id="六、GC垃圾回收器"><a href="#六、GC垃圾回收器" class="headerlink" title="六、GC垃圾回收器"></a>六、GC垃圾回收器</h3></li>
+<li>Serial垃圾回收器——单线程、复制算法，STW；</li>
+<li>ParNew垃圾回收器——Serial+多线程；</li>
 <li></li>
-</ol>
-</li>
-<li>传输层<ol>
-<li>TCP三次握手与四次挥手：</li>
-<li>TCP的closewait和timewait：</li>
-<li>TCP拥塞控制机制：</li>
-<li>TCP可靠传输机制：</li>
-<li></li>
-</ol>
-</li>
-<li>网络层</li>
-<li>链路层</li>
-<li>物理层</li>
 </ol>
 
             </div>
@@ -295,7 +298,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Computer-Science-Interview/">Computer Science, Interview</a>
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer Science</a>
                     
                   </div>
                 
@@ -312,18 +315,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/05/15/Interview-JVM/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Interview-JVM</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/28/Interview-Sort-Algorithm/">
-                        <span class="hidden-mobile">Interview Sort Algorithm</span>
+                      <a href="/2022/05/11/Interview-ComputerNet/">
+                        <span class="hidden-mobile">Interview-ComputerNet</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -345,8 +342,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://example.com/2022/05/11/Interview-ComputerNet/';
-          this.page.identifier = '/2022/05/11/Interview-ComputerNet/';
+          this.page.url = 'http://example.com/2022/05/15/Interview-JVM/';
+          this.page.identifier = '/2022/05/15/Interview-JVM/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
