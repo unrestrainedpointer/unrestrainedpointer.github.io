@@ -24,7 +24,7 @@
 <meta property="og:description" content="数据库三大范式： 第一范式：列不可拆分； 第二范式：非主键依赖主键而非主键的一部分； 第三范式：非主键只依赖主键而非其他非主键；   MySQL的binlog有几种录入格式？分别有什么区别？ statement：只记录SQL语句而不记录每一行的变化，减少了binlog的记录量，节约了IO提高了性能； row：记录了每一行的变化，但是文件的保存信息太多，日志量太大； mixed：普通操作使用sta">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-23T05:23:42.000Z">
-<meta property="article:modified_time" content="2022-05-14T17:22:09.464Z">
+<meta property="article:modified_time" content="2022-05-26T08:28:49.164Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Computer Science">
 <meta name="twitter:card" content="summary_large_image">
@@ -394,7 +394,7 @@
 <li>当mysql估计使用全表扫描要比使用索引快，则不使用索引</li>
 </ol>
 </li>
-<li>1InnoDB和MyISAM的区别：<ol>
+<li>InnoDB和MyISAM的区别：<ol>
 <li>InnoDB支持事务，MyISAM不支持事务；</li>
 <li>InnoDB支持外键，MyISAM不支持外键；</li>
 <li>InnoDB支持MVCC，MyISAM不支持；</li>

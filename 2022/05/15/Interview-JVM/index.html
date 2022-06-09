@@ -24,7 +24,7 @@
 <meta property="og:description" content="一、JVM内存五部分组成 组成：程序计数器（线程私有）+虚拟机栈（线程私有）+本地方法区（线程私有）+堆（线程共享）+方法区&#x2F;永久代（线程共享； 程序计数器：唯一一个不会出现OOM的区域； 虚拟机栈：描述Java方法执行的内存模型，每个方法在执行的同时会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息；每一个方法从调用到执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-14T17:02:17.000Z">
-<meta property="article:modified_time" content="2022-05-14T17:02:40.358Z">
+<meta property="article:modified_time" content="2022-05-25T18:57:29.163Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Computer Science">
 <meta name="twitter:card" content="summary_large_image">
@@ -197,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      4.5k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14 分钟
+      38 分钟
     </span>
   
 
@@ -283,10 +283,65 @@
 <li>方法区：用于存储JVM加载的类信息、常量、静态变量、即使编译器编译后的代码等数据；<h3 id="二、JVM运行时内存"><a href="#二、JVM运行时内存" class="headerlink" title="二、JVM运行时内存"></a>二、JVM运行时内存</h3></li>
 <li>新生代：Eden+ServivorFrom+ServivorTo：MinorGC——复制算法</li>
 <li>老年代：MajorGC——标记清除算法；</li>
-<li>永久代：存放Class和Meta，GC不会在主程序运行期对永久区域进行处理，所以这也导致了永久代的区域会随着加载Class的增多而胀满，最终抛出OOM异常；Java8中被元空间取代，不再使用虚拟机空间而是采用系统空间；<h3 id="三、垃圾回收GC"><a href="#三、垃圾回收GC" class="headerlink" title="三、垃圾回收GC"></a>三、垃圾回收GC</h3><h3 id="四、JAVA中四种引用"><a href="#四、JAVA中四种引用" class="headerlink" title="四、JAVA中四种引用"></a>四、JAVA中四种引用</h3><h3 id="五、GC分代回收算法VS分区回收算法"><a href="#五、GC分代回收算法VS分区回收算法" class="headerlink" title="五、GC分代回收算法VS分区回收算法"></a>五、GC分代回收算法VS分区回收算法</h3><h3 id="六、GC垃圾回收器"><a href="#六、GC垃圾回收器" class="headerlink" title="六、GC垃圾回收器"></a>六、GC垃圾回收器</h3></li>
+<li>永久代：存放Class和Meta，GC不会在主程序运行期对永久区域进行处理，所以这也导致了永久代的区域会随着加载Class的增多而胀满，最终抛出OOM异常；Java8中被元空间取代，不再使用虚拟机空间而是采用系统空间；<h3 id="三、垃圾回收GC"><a href="#三、垃圾回收GC" class="headerlink" title="三、垃圾回收GC"></a>三、垃圾回收GC</h3></li>
+<li>怎样判定对象死亡或者不可达？<ol>
+<li>引用计数法：为对象添加一个引用计数器，每当有一个地方引用它时，计数器就加一，引用失效时计数器就减一；</li>
+<li>可达性分析算法：通过一系列的GC Roots对象为起始点开始向下搜索，搜索走过的路径是引用链，当一个对象到GC Roots没有任何引用链相连，那么此对象就是不可达的；<ol>
+<li>哪些对象是GC Roots对象呢？<ol>
+<li>System Class——系统类</li>
+<li>JNI Local——Local variable in native code, such as user defined JNI code or JVM internal code.</li>
+<li>JNI Global ———-Global variable in native code, such as user defined JNI code or JVM internal code.</li>
+<li>Thread Block ———-Object referred to from a currently active thread block. （一个对象存活在一个阻塞的线程中）</li>
+<li>Thread ———-A started, but not stopped, thread.（一个正在运行的线程）</li>
+<li>Busy Monitor ———-Everything that has called wait() or notify() or that is synchronized. For example, by calling synchronized(Object) or by entering a synchronized method. Static method means class, non-static method means object.（用于同步的监控对象）</li>
+<li>Java Local ———-Local variable. For example, input parameters or locally created objects of methods that are still in the stack of a thread.（java 本地变量，输入参数，在线程方法本地创建的对象）</li>
+<li>Native Stack ———-In or out parameters in native code, such as user defined JNI code or JVM internal code. This is often the case as many methods have native parts and the objects handled as method parameters become GC roots. For example, parameters used for file&#x2F;network I&#x2F;O methods or reflection.（ 方法区中的类静态属性引用的对象 ，方法区中的常量引用的对象 ）</li>
+<li>System Class（系统类），Thread Block（一个对象存活在一个阻塞的线程中） ，Thread（线程），Busy Monitor （例如 synchronized(Object)），Java Local （本地变量），Finalizable （存在finalizer 对象的列表中），这几个我们较为常见。</li>
+</ol>
+</li>
+<li>java中的主流虚拟机HotSpot采用可达性分析算法来判断一个对象是否需要进行回收。那么，它是如何实现可达性算法的呢？<ol>
+<li>根节点枚举：先找出可固定作为 GC Roots 的节点，然后沿着引用链去寻找那些无用的垃圾对象。迄今为止，所有收集器在根节点枚举这一步骤时都是必须暂停用户线程，也即 Stop The World，因为如果在分析过程中出现根节点集合中对象的引用关系仍在不断变化的情况，分析结果的准确性也就无法保证了。在对栈内存进行分析时，虚拟机会看哪些位置存储了 Reference 类型，如果发现某个位置确实存的是 Reference 类型，就意味着它所引用的对象这一次不能被回收。但问题是，栈帧的本地变量表里面只有一部分数据是 Reference 类型的，那些非 Reference 类型（基本数据类型）的数据对我们毫无用处，但我们还是不得不对整个栈全部扫描一遍，这是对时间和资源的一种浪费。在 HotSpot 的解决方案中采用了一组称为 OopMap 的数据结构来实现直接找到对象引用，一旦类加载动作完成，HotSpot 就会把栈中代表引用的位置全部记录下来，这样收集器在扫描时就可以直接得知这些消息了。</li>
+<li>安全点：这部分过后去补<h3 id="四、JAVA中四种引用"><a href="#四、JAVA中四种引用" class="headerlink" title="四、JAVA中四种引用"></a>四、JAVA中四种引用</h3><h3 id="五、GC分代回收算法VS分区回收算法"><a href="#五、GC分代回收算法VS分区回收算法" class="headerlink" title="五、GC分代回收算法VS分区回收算法"></a>五、GC分代回收算法VS分区回收算法</h3><h3 id="六、GC垃圾回收器"><a href="#六、GC垃圾回收器" class="headerlink" title="六、GC垃圾回收器"></a>六、GC垃圾回收器</h3></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
 <li>Serial垃圾回收器——单线程、复制算法，STW；</li>
 <li>ParNew垃圾回收器——Serial+多线程；</li>
-<li></li>
+<li>CMS垃圾回收器：Concurrent Mark Sweep——并行标记扫描，是一款并发的老年代垃圾收集器，是通过以最短停顿时间STW为目标的回收器，采用标记清除算法，主要分为以下四个步骤：<ol>
+<li>初始标记：有STW，然后通过可达性分析算法，记录GC ROOTs能直接引用的对象；</li>
+<li>并发标记：从初始标记中GC ROOTs直接关联的对象出发，遍历整个老年代，这个过程耗时较长，但因为是并发流程，无STW；</li>
+<li>重新标记：修正并发标记过程中在初始标记阶段后发生状态改变的对象，使用三色标记中的增量更新算法，此阶段会STW；</li>
+<li>并发清理：同时开启工作线程与GC线程，GC线程主要对未标记的区域进行清理；</li>
+<li>并发重置：重置这次GC过程中的标记数据；</li>
+<li>问题：CPU资源抢占——浮动垃圾——空间碎片——concurrent mode failure问题：并发标记或者并发清理阶段如果又出发了垃圾回收，但是本次垃圾回收又没有进行完，那么则会出发concurrent mode failure，这时会进入单线程收集，先STW，然后使用serial old垃圾回收器来回收；</li>
+</ol>
+</li>
+<li>G1垃圾回收器：Garbage First</li>
+<li>对象的内存结构：<ol>
+<li>对象的内存构成——一个实例对象是以怎样的形态存在内存中的？Java对象保存在堆中的时候，由以下三部分组成：<br>1. 对象头：由两个字组成<ol>
+<li>Mark Word：用于存储对象自身的运行时数据，如hashcode、GC分代年龄、锁状态标志、线程持有锁、偏向线程ID、偏向时间戳等；</li>
+<li>klass pointer：对象指向它的类元数据的指针，JVM通过这个指针来确定这个对象是哪个类的实例；<br>2. 实例数据：对象的属性字段、父类信息；<br>3. 对齐填充： 默认情况下，Java虚拟机堆中对象的起始地址需要对齐至8的倍数。如果一个对象用不到8N个字节则需要对其填充，以此来补齐对象头和实例数据占用内存之后剩余的空间大小。</li>
+</ol>
+</li>
+<li>为什么要对齐数据？<ol>
+<li>字段内存对齐的其中一个原因，是让字段只出现在同一CPU的缓存行中。如果字段不是对齐的，那么就有可能出现跨缓存行的字段。也就是说，该字段的读取可能需要替换两个缓存行，而该字段的存储也会同时污染两个缓存行。这两种情况对程序的执行效率而言都是不利的。其实对其填充的最终目的是为了计算机高效寻址。</li>
+<li>如果对象在cache中跨数据行存储，则无法添加缓存锁，和volatile的实现机制矛盾；</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>常量池：分为class文件常量池、运行时常量池、全局字符串常量池以及基本类型包装类对象常量池；<ol>
+<li>class文件常量池：class文件常量池主要存放两大常量：字面量和符号引用；<ol>
+<li>字面量：文本字符串、用final修饰的成员变量；</li>
+<li>符号引用：类和接口的全限定名、字段的名称和描述符、方法的名称和描述符；</li>
+</ol>
+</li>
+<li>运行时常量池：方法区的一部分</li>
+</ol>
+</li>
 </ol>
 
             </div>
@@ -314,6 +369,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/05/24/Ethereum-Origin-Code/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ethereum-Origin Code</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
