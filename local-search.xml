@@ -27,7 +27,7 @@
     <link href="/2022/06/09/OS-Lab1/"/>
     <url>/2022/06/09/OS-Lab1/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h3 id="通过make生成执行文件的过程"><a href="#通过make生成执行文件的过程" class="headerlink" title="通过make生成执行文件的过程"></a>通过make生成执行文件的过程</h3><ol><li><p>原理和知识点</p></li><li><p>ucore.img是如何一步一步生成的？</p><ol><li>在lab1目录下执行make，会在bin中生成一个ucore.img，这是一个包含了BootLoader或OS的硬盘镜像。</li><li>Makefile说明：<ol><li><img src="/2022/06/09/OS-Lab1/image.jpg" class="" title="这是一张图片">   这里了:&#x3D;是&#x3D;的变异，所谓的变量又称为宏，是指可以替换为一段字符串的量，如这里的PROJ就可以替换为’challenge’，而:&#x3D;称为简单扩展型变量的赋值，即PROJ的赋值中如果有其他变量直接展开而不是在执行替换时才展开；</li><li></li></ol></li></ol></li><li><p>一个被系统认为是符合规范的硬盘主引导扇区的特征是什么？</p><h3 id="使用qemu执行并调试lab1中的软件"><a href="#使用qemu执行并调试lab1中的软件" class="headerlink" title="使用qemu执行并调试lab1中的软件"></a>使用qemu执行并调试lab1中的软件</h3></li><li><p>从CPU加电之后执行的第一条指令开始，单步跟踪BIOS的执行：</p></li><li><p>在初始化位置0x7c00设置实地址断点，测试断点正常：</p></li><li></li></ol>]]></content>
     
     
     
