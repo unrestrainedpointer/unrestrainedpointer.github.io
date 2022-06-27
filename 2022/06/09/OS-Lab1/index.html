@@ -16,20 +16,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="通过make生成执行文件的过程 原理和知识点  ucore.img是如何一步一步生成的？  在lab1目录下执行make，会在bin中生成一个ucore.img，这是一个包含了BootLoader或OS的硬盘镜像。 Makefile说明：     这里了:&#x3D;是&#x3D;的变异，所谓的变量又称为宏，是指可以替换为一段字符串的量，如这里的PROJ就可以替换为’challenge’，而:&amp;#">
+    <meta name="description" content="通过make生成执行文件的过程 原理和知识点  ucore.img是如何一步一步生成的？  在lab1目录下执行make，会在bin中生成一个ucore.img，这是一个包含了BootLoader或OS的硬盘镜像。 Makefile说明：    这里了:&#x3D;是&#x3D;的变异，所谓的变量又称为宏，是指可以替换为一段字符串的量，如这里的PROJ就可以替换为’challenge’，而:&amp;#x">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OS Lab1">
 <meta property="og:url" content="http://example.com/2022/06/09/OS-Lab1/index.html">
 <meta property="og:site_name" content="Meditions">
-<meta property="og:description" content="通过make生成执行文件的过程 原理和知识点  ucore.img是如何一步一步生成的？  在lab1目录下执行make，会在bin中生成一个ucore.img，这是一个包含了BootLoader或OS的硬盘镜像。 Makefile说明：     这里了:&#x3D;是&#x3D;的变异，所谓的变量又称为宏，是指可以替换为一段字符串的量，如这里的PROJ就可以替换为’challenge’，而:&amp;#">
+<meta property="og:description" content="通过make生成执行文件的过程 原理和知识点  ucore.img是如何一步一步生成的？  在lab1目录下执行make，会在bin中生成一个ucore.img，这是一个包含了BootLoader或OS的硬盘镜像。 Makefile说明：    这里了:&#x3D;是&#x3D;的变异，所谓的变量又称为宏，是指可以替换为一段字符串的量，如这里的PROJ就可以替换为’challenge’，而:&amp;#x">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/06/09/OS-Lab1/image.jpg">
+<meta property="og:image" content="http://example.com/2022/06/09/OS-Lab1/image1.jpg">
+<meta property="og:image" content="http://example.com/2022/06/09/OS-Lab1/image2.jpg">
 <meta property="article:published_time" content="2022-06-09T07:51:23.000Z">
-<meta property="article:modified_time" content="2022-06-19T15:39:52.026Z">
+<meta property="article:modified_time" content="2022-06-19T16:05:56.177Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Computer Science">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/06/09/OS-Lab1/image.jpg">
+<meta name="twitter:image" content="http://example.com/2022/06/09/OS-Lab1/image1.jpg">
   
   
   <title>OS Lab1 - Meditions</title>
@@ -199,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      343 字
+      903 字
     </span>
   
 
@@ -208,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3 分钟
+      8 分钟
     </span>
   
 
@@ -254,10 +255,20 @@
 <li><p>ucore.img是如何一步一步生成的？</p>
 <ol>
 <li>在lab1目录下执行make，会在bin中生成一个ucore.img，这是一个包含了BootLoader或OS的硬盘镜像。</li>
-<li>Makefile说明：<ol>
-<li><img src="/2022/06/09/OS-Lab1/image.jpg" srcset="/img/loading.gif" lazyload class="" title="这是一张图片">
-   这里了:&#x3D;是&#x3D;的变异，所谓的变量又称为宏，是指可以替换为一段字符串的量，如这里的PROJ就可以替换为’challenge’，而:&#x3D;称为简单扩展型变量的赋值，即PROJ的赋值中如果有其他变量直接展开而不是在执行替换时才展开；</li>
-<li></li>
+<li>Makefile说明：  <img src="/2022/06/09/OS-Lab1/image1.jpg" srcset="/img/loading.gif" lazyload class="">
+<ol>
+<li>这里了:&#x3D;是&#x3D;的变异，所谓的变量又称为宏，是指可以替换为一段字符串的量，如这里的PROJ就可以替换为’challenge’，而:&#x3D;称为简单扩展型变量的赋值，即PROJ的赋值中如果有其他变量直接展开而不是在执行替换时才展开；</li>
+<li>$(variable)是对变量variable的引用；  <img src="/2022/06/09/OS-Lab1/image2.jpg" srcset="/img/loading.gif" lazyload class=""></li>
+<li>ifndef variable-name：如果变量‘variable-name’是空值，‘text-if-true’有效，否则，‘text-if-false’有效；</li>
+<li>函数shell：它是make与外部环境的通讯工具。</li>
+<li>函数if：函数if对在函数上下文中扩展条件提供了支持；一个函数if的调用，可以包含两个或三个参数：$(if condition,then-part[,else-part])<ol>
+<li>第一个参数‘condition’，首先把前导、结尾空格去掉，然后扩展。如果扩展为非空字符串，则条件‘condition’为‘真’；如果扩展为空字符串，则条件‘condition’为‘假’。如果条件‘condition’为‘真’,那么计算第二个参数‘then-part’的值，并将该值作为整个函数if的值。</li>
+<li>如果条件‘condition’为‘假’,第三个参数如果存在，则计算第三个参数‘else-part’的值，并将该值作为整个函数if的值；</li>
+<li>如果第三个参数不存在，函数if将什么也不计算，返回空值。</li>
+<li>注意仅能计算‘then-part’和‘else-part’二者之一，不能同时计算。这样有可能产生副作用（例如函数shell的调用）。</li>
+</ol>
+</li>
+<li>echo命令可以用来来显示makefile文件执行的进程：</li>
 </ol>
 </li>
 </ol>
