@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言——两种态度：  自然态度：接受前提并继续思考； 哲学态度：反思前提并继续颠覆——怀疑的美妙；   Convex hull：  输入：平面上的n个点的集合Q； 输出： CH(Q): Q的convex hull； Q的convex hull是一个最小凸多边形P，Q的点或者在P上或者在P内； 凸多边形P是具有如下性质多边形：连接P内任意两点的边都在P内   Graham Scan：  选取一个点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graham-Scan">
+<meta property="og:url" content="http://example.com/2022/04/17/Graham-Scan/index.html">
+<meta property="og:site_name" content="Meditions">
+<meta property="og:description" content="前言——两种态度：  自然态度：接受前提并继续思考； 哲学态度：反思前提并继续颠覆——怀疑的美妙；   Convex hull：  输入：平面上的n个点的集合Q； 输出： CH(Q): Q的convex hull； Q的convex hull是一个最小凸多边形P，Q的点或者在P上或者在P内； 凸多边形P是具有如下性质多边形：连接P内任意两点的边都在P内   Graham Scan：  选取一个点">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-16T20:42:34.000Z">
+<meta property="article:modified_time" content="2022-04-16T22:31:43.719Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Science, Philosophy">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Graham-Scan - Meditions</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Meditations</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/Evariste_galois.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Graham-Scan">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-17 04:42" pubdate>
+        2022年4月17日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Graham-Scan</h1>
+            
+            <div class="markdown-body">
+              <ol>
+<li><p>前言——两种态度：</p>
+<ol>
+<li>自然态度：接受前提并继续思考；</li>
+<li>哲学态度：反思前提并继续颠覆——怀疑的美妙；</li>
+</ol>
+</li>
+<li><p>Convex hull：</p>
+<ol>
+<li>输入：平面上的n个点的集合Q；</li>
+<li>输出： CH(Q): Q的convex hull；</li>
+<li>Q的convex hull是一个最小凸多边形P，Q的点或者在P上或者在P内；</li>
+<li>凸多边形P是具有如下性质多边形：连接P内任意两点的边都在P内</li>
+</ol>
+</li>
+<li><p>Graham Scan：</p>
+<ol>
+<li>选取一个点作为极点，将所有点按照与极点形成的极角由小到大排序；</li>
+<li>从极点开始选取凸包边界点：<ol>
+<li>用栈保存遍历到当前节点的过程中凸包边界的候选点；</li>
+<li>每次遍历选取栈顶第二个节点作为极点，将栈顶节点与极点形成的极角和遍历节点与极点形成的极角作比较：<ol>
+<li>当前者大于后者时，删除栈顶节点；</li>
+<li>当前者小于后者时，保留栈顶节点；</li>
+<li>当前者等于后者时，如果栈顶节点的极径大于遍历节点的极径则保留栈顶节点，否则删除；</li>
+</ol>
+</li>
+<li>遍历节点入栈，成为新的栈顶；</li>
+<li>直到遍历结束，栈中节点就是凸包边界点的集合；</li>
+</ol>
+</li>
+<li>初始化栈，极点和极角最小的节点；</li>
+</ol>
+</li>
+<li><p>算法过程中点的关系：</p>
+<ol>
+<li>遍历过程中每一个点都进入了栈成为了凸包边界候选点；</li>
+<li>每次循环过程中只做了一件事：借助栈顶第二个节点和遍历到的当前节点决定栈顶节点的去留；</li>
+<li>遍历的顺序是节点与极点形成的极角的递增顺序；</li>
+<li>算法的不变性是每次循环开始时栈中节点形成了遍历序列中当前遍历节点之前的点集的凸包；</li>
+</ol>
+</li>
+<li><p>考察算法的思考过程：</p>
+<ol>
+<li>首先确定遍历顺序，将人为解决问题方法中的遍历顺序用极角表达；</li>
+<li>确定循环中每个点去留所取决的因素；</li>
+<li>本算法中遍历到的节点不是作为待操作节点而存在，而是作为待操作节点选择操作的判断条件而存在，这是因为凸包边界节点的选取进度和遍历进度不一致却又相关而导致的——即我们当前需要考虑是否在凸包中的节点可能是P2而遍历到的节点可能是P5；</li>
+<li>当我们用数学概念（极坐标系）配合数学操作（计算、比较大小）表达人为解决问题的方法时，出现了如下情况可以采用的方法：<ol>
+<li>结果集递增的速度和问题集遍历的速度不一致，可以采用判断（if语句）使两者匹配，此时循环中操作的量即是遍历到的量；</li>
+<li>随着问题集的遍历（问题规模的递增），结果集中的某些元素会出现不确定性，本算法中是最新加入结果集中的元素的保留与否随着问题集的递增具有不确定性，此时循环中操作的变量是结果集中具有不确定性的元素；</li>
+<li>以上两种情况的不同点在于结果集和问题集规模变化过程的关系：同步递增、异步递增、规模变化非单调（Graham Scan算法中随着问题集规模的递增会出现结果集规模递减的现象，而这种递减在每次循环中最多是1）；</li>
+<li>(c)中的着眼点在于问题解决过程中问题集和结果集规模变化的关系；</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>结论：根据（5）中结论，我们在程序设计过程中为了确定程序在问题集递增过程中的具体操作可以着眼于问题集递增对于结果集的每次递增的影响；</p>
+</li>
+<li><p>考察算法思考过程中运用了理性的哪些内涵：</p>
+<ol>
+<li>我们为什么要如上方式地确定遍历顺序？<ol>
+<li>一种回答是因为这能解决问题，但我们在确定这种顺序时并不确定问题可以因此得到解决。我们没有理由的选择“按照某种顺序一个个考察问题集中的节点”，比如本算法的按照二维空间边界的顺序（数学上表达为极角），再比如按照大小顺序、排列顺序，即便是我们所谓的不按顺序也可以理解为“按随机顺序”，总之我们必须一个一个地考察问题集中的节点，这是最根本的前提，也就是我们的理性总是解析式的考察问题，这是由于理性具有分辨性质的缘故，因此确定问题集规模递增的顺序是第一步；</li>
+<li>何为顺序？顺序的产生是基于量的性质和时空性质，比如我们常见的大小顺序就是基于量，先后顺序是基于时空，而在数学的帮助下，空间可以被我们量化表达，即空间观念和量的观念可以被思维的同一性关联起来（或者说空间观念和量观念的构成中具备了相同的理性因素）</li>
+<li>空间观念中的基本观念：<ol>
+<li>位置观念：<ol>
+<li>点的位置可以借助各种坐标系表达；</li>
+<li>线的位置可以借助方程表达；</li>
+<li>形的位置可以借助什么表达呢？</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science-Philosophy/">Computer Science, Philosophy</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/17/Poetry/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Poetry(1)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/12/Stream-in-Java/">
+                        <span class="hidden-mobile">Stream in Java</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2022/04/17/Graham-Scan/';
+          this.page.identifier = '/2022/04/17/Graham-Scan/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

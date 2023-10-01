@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="IP Internet Topologypaper searchingIn the IP of the Beholder: Strategies for Active IPv6 Topology Discovery（IMC ’18）Abstract 随机探测技术——分配探测负载、最小化速率限制的影响、提高探测速率 hitlist和目标生产方法分析并生成新的目标列表（广度：覆盖整个子网；深度：找到潜">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IP Internet Topology">
+<meta property="og:url" content="http://example.com/2023/07/10/20230710-diary/index.html">
+<meta property="og:site_name" content="Meditions">
+<meta property="og:description" content="IP Internet Topologypaper searchingIn the IP of the Beholder: Strategies for Active IPv6 Topology Discovery（IMC ’18）Abstract 随机探测技术——分配探测负载、最小化速率限制的影响、提高探测速率 hitlist和目标生产方法分析并生成新的目标列表（广度：覆盖整个子网；深度：找到潜">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-10T05:43:39.000Z">
+<meta property="article:modified_time" content="2023-07-17T15:53:00.762Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>IP Internet Topology - Meditions</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Meditations</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/Evariste_galois.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="IP Internet Topology">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-07-10 13:43" pubdate>
+        2023年7月10日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">IP Internet Topology</h1>
+            
+            <div class="markdown-body">
+              <h1 id="IP-Internet-Topology"><a href="#IP-Internet-Topology" class="headerlink" title="IP Internet Topology"></a>IP Internet Topology</h1><h2 id="paper-searching"><a href="#paper-searching" class="headerlink" title="paper searching"></a>paper searching</h2><h3 id="In-the-IP-of-the-Beholder-Strategies-for-Active-IPv6-Topology-Discovery（IMC-’18）"><a href="#In-the-IP-of-the-Beholder-Strategies-for-Active-IPv6-Topology-Discovery（IMC-’18）" class="headerlink" title="In the IP of the Beholder: Strategies for Active IPv6 Topology Discovery（IMC ’18）"></a>In the IP of the Beholder: Strategies for Active IPv6 Topology Discovery（IMC ’18）</h3><h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><ol>
+<li>随机探测技术——分配探测负载、最小化速率限制的影响、提高探测速率</li>
+<li>hitlist和目标生产方法分析并生成新的目标列表（广度：覆盖整个子网；深度：找到潜在子网）</li>
+<li>阅读目标：<ol>
+<li>探测技术发现</li>
+<li>hitlist和目标产生方法发现</li>
+<li>全文创新灵感和分析方法梳理</li>
+<li>文章探测器试用和拓扑概览</li>
+</ol>
+</li>
+</ol>
+<h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><ol>
+<li>IPv6应用广泛性举例以及IPv6网络拓扑重要性</li>
+<li>挑战：<ol>
+<li>不可行的大地址空间不能被彻底扫描或均匀有效地采样</li>
+<li>路由器中强制性的ICMPv6速率限制</li>
+<li>未知的地址分配策略和子网结构</li>
+<li>前两个问题的关联性：试图通过探测更多的IPv6地址空间来增加覆盖需要更快的探测速率。然而，增加探测速率是弄巧成拙的，因为这样做会触发更多的速率限制，并且因此会导致更少的发现的路由器接口和更少的代表性拓扑。</li>
+</ol>
+</li>
+<li>目标发现1：虽然几十年的研究已经开发和完善了主动IPv4拓扑发现（例如，[6，20，35，38，56]，这些技术没有解决IPv6特有的上述挑战。<ol>
+<li>[6] Robert Beverly, Arthur Berger, and Geoffrey G. Xie. 2010. Primitives for Active Internet Topology Mapping: Toward High-Frequency Characterization. In Proceedings ofthe CM Internet Measurement Conference (IMC).</li>
+<li>[20] Benoit Donnet, Philippe Raoult, Timur Friedman, and Mark Crovella. 2005. Efficient Algorithms for Large-Scale Topology Discovery. ACMSIGMETRICS Performance Evaluation Review 33, 1 (2005).</li>
+<li>[35] k. claffy, Young Hyun, Ken Keys, and Maria Fomenkov. 2009. Internet Mapping: from Art to Science. In IEEE Cybersecurity Applications for Homeland Security.</li>
+<li>[38] Ken Keys. 2010. Internet-Scale IP Alias Resolution Techniques. SIGCOMM Comput. Commun. Rev. 40, 1 (2010).</li>
+<li>[56] Neil Spring, Ratul Mahajan, and David Wetherall. 2002. Measuring ISP topologies with Rocketfuel. ACMSIGCOMM Computer Communication Review 32, 4 (2002).</li>
+<li>到这我对IPv4探测技术的发现目的似乎已经达成，还要继续读吗？读吧，多了解一下。</li>
+</ol>
+</li>
+<li>目标发现2：生产CAIDA和RIPE跟踪路由定期探测每个全局IPv6 BGP前缀的：：1地址[11，52]。<ol>
+<li>[11] CAIDA. 2018. The CAIDA UCSD IPv6 Topology Dataset. <a target="_blank" rel="noopener" href="http://www.caida.org/data/active/ipv6_allpref_topology_dataset.xml">http://www.caida.org/data/active/ipv6_allpref_topology_dataset.xml</a>.</li>
+<li>[52] RIPE NCC. 2018. RIPE Atlas. <a target="_blank" rel="noopener" href="https://atlas.ripe.net/">https://atlas.ripe.net/</a>.</li>
+<li>由于在大的IPv6地址空间中采样非常稀疏，因此得到的逻辑拓扑的完整性和质量是未知的。</li>
+</ol>
+</li>
+<li>做法：<ol>
+<li>我们收集了目前从各种来源（例如，BGP、DNS、CDN [22、25、49、51、54]）以及生成的种子（例如，6Gen [46]）</li>
+<li>我们采用了三个步骤的过程来合成12.4M的目标地址，专门制作，以促进拓扑发现</li>
+<li>我们从以下三个方面执行总共45.8M个跟踪：两所美国大学和一所欧盟网络</li>
+<li>我们研究了不同的靶选择方法和参数（例如，最大TTL、协议、探测速度等）找到那些引出最多IPv6拓扑信息的节点</li>
+</ol>
+</li>
+<li>贡献：<ol>
+<li>从七个不同的输入种子集评估各种手段来合成目标地址</li>
+<li>量化随机探测以维持高速率，同时避免ICMPv6速率限制。·</li>
+<li>表征目标列表功率以产生拓扑结果。· </li>
+<li>IPv6子网发现作为拓扑推断的案例研究。· </li>
+<li>IPv6路由器接口级拓扑结果，我们的合成目标列表，以及我们的探测器实现[7]。<h4 id="BACKGROUND-AND-RELATEDWORK"><a href="#BACKGROUND-AND-RELATEDWORK" class="headerlink" title="BACKGROUND AND RELATEDWORK"></a>BACKGROUND AND RELATEDWORK</h4></li>
+</ol>
+</li>
+<li>IPv4拓扑探测技术：除了上文的6、20、35、38、56之外还有：<ol>
+<li>Beverly推出了Yarrp，一个随机化的高速IPv4拓扑探测器：[5] Robert Beverly. 2016. Yarrp’ing the Internet: Randomized High-Speed Active Topology Discovery. In Proceedings ofthe ACM Internet Measurement Conference(IMC).</li>
+</ol>
+</li>
+<li>和IPv6拓扑的区别：<ol>
+<li>尽管先前对IPv4拓扑进行了大量工作，但IPv6至少有两个根本区别：更大的地址空间（稀疏地填充）和激进的ICMPv6速率限制[13，36]。我们探索新的技术，以适应这两个属性在这项工作中。</li>
+</ol>
+</li>
+<li>IPv6拓扑探测技术：<ol>
+<li>CAIDA’s Ark：[11] CAIDA. 2018. The CAIDA UCSD IPv6 Topology Dataset. <a target="_blank" rel="noopener" href="http://www.caida.org/data/active/ipv6_allpref_topology_dataset.xml">http://www.caida.org/data/active/ipv6_allpref_topology_dataset.xml</a>.</li>
+<li>RIPE Atlas：[52] RIPE NCC. 2018. RIPE Atlas. <a target="_blank" rel="noopener" href="https://atlas.ripe.net/">https://atlas.ripe.net/</a>.</li>
+<li>随机化探测：[28] Erik W. Gaston. 2017. High-frequency mapping ofthe IPv6 Internet using Yarrp. Master’s thesis. Naval Postgraduate School. <a target="_blank" rel="noopener" href="http://hdl.handle.net/10945/52982">http://hdl.handle.net/10945/52982</a>.</li>
+<li>IPv6别名解析技术（CAIDA的ITDK的一部分）：这部分不算拓扑探测<ol>
+<li>[42] Matthew Luckie, Robert Beverly, William Brinkmeyer, and kc claffy. 2013. Speed-trap: Internet-Scale IPv6 Alias Resolution. In Proceedings ofthe ACM Internet Measurement Conference (IMC).</li>
+<li>[10] CAIDA. 2018. The CAIDA Internet Topology Data Kit. <a target="_blank" rel="noopener" href="http://www.caida.org/data/internet-topology-data-kit">http://www.caida.org/data/internet-topology-data-kit</a>.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>IPv6 hitlist：互联网中活跃IPv6地址的目录，通常称为hitlist</li>
+</ol>
+<h4 id="TARGET-SELECTION"><a href="#TARGET-SELECTION" class="headerlink" title="TARGET SELECTION"></a>TARGET SELECTION</h4><ol>
+<li>Target Generation<ol>
+<li>接口标识符IID：[33] R. Hinden and S. Deering. 2006. IP Version 6 Addressing Architecture. RFC 4291(Draft Standard).</li>
+<li>暂时弃读</li>
+</ol>
+</li>
+</ol>
+<h3 id="Eﬃcient-Algorithms-for-Large-Scale-Topology-Discovery"><a href="#Eﬃcient-Algorithms-for-Large-Scale-Topology-Discovery" class="headerlink" title="Eﬃcient Algorithms for Large-Scale Topology Discovery"></a>Eﬃcient Algorithms for Large-Scale Topology Discovery</h3><h4 id="Redundancy——冗余"><a href="#Redundancy——冗余" class="headerlink" title="Redundancy——冗余"></a>Redundancy——冗余</h4><ol>
+<li>traceroute从源主机进行探测，第一次TTL为1到达中间节点1，第二次TTL为2先到达中间节点1再到达中间节点2，如此随着TTL的增加，每次越靠近源点的中间节点被访问次数就会增加，这就是测量冗余。</li>
+<li>本文为了方便对测量冗余进行研究，首先进行了分类：<ol>
+<li>分为intra-monitor和inter-monitor：前者是一个monitor访问接口的次数，后者是访问接口的monitor的数量。</li>
+<li>注：monitor可以理解为探测源主机（源点），接口就是中间节点比如路由器的接口，而本文中的探测明显是多个monitor同时进行探测</li>
+</ol>
+</li>
+<li>本文实际上就是一个记录已探测节点的探测策略，算法没什么意思</li>
+</ol>
+<h3 id="Internet-Mapping-from-Art-to-Science"><a href="#Internet-Mapping-from-Art-to-Science" class="headerlink" title="Internet Mapping: from Art to Science"></a>Internet Mapping: from Art to Science</h3><h4 id="ARK项目介绍"><a href="#ARK项目介绍" class="headerlink" title="ARK项目介绍"></a>ARK项目介绍</h4><ol>
+<li>4.1节中提到了ARK使用的探测策略：[23] M. Luckie, Y. Hyun, and B. Huffaker. Traceroute Probe Method and Forward IP Path Inference. In IMC’08, Oct 2008.</li>
+</ol>
+<h3 id="Traceroute-Probe-Method-and-Forward-IP-Path-Inference-In-IMC’08"><a href="#Traceroute-Probe-Method-and-Forward-IP-Path-Inference-In-IMC’08" class="headerlink" title="Traceroute Probe Method and Forward IP Path Inference. In IMC’08"></a>Traceroute Probe Method and Forward IP Path Inference. In IMC’08</h3><h3 id="ARK探测策略"><a href="#ARK探测策略" class="headerlink" title="ARK探测策略"></a>ARK探测策略</h3>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/07/19/Topology-Datasets/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Topology Datasets</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/10/IP%20Internet%20Topology/">
+                        <span class="hidden-mobile">IP Internet Topology</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2023/07/10/20230710-diary/';
+          this.page.identifier = '/2023/07/10/20230710-diary/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

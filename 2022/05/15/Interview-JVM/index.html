@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、JVM内存五部分组成 组成：程序计数器（线程私有）+虚拟机栈（线程私有）+本地方法区（线程私有）+堆（线程共享）+方法区&#x2F;永久代（线程共享； 程序计数器：唯一一个不会出现OOM的区域； 虚拟机栈：描述Java方法执行的内存模型，每个方法在执行的同时会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息；每一个方法从调用到执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Interview-JVM">
+<meta property="og:url" content="http://example.com/2022/05/15/Interview-JVM/index.html">
+<meta property="og:site_name" content="Meditions">
+<meta property="og:description" content="一、JVM内存五部分组成 组成：程序计数器（线程私有）+虚拟机栈（线程私有）+本地方法区（线程私有）+堆（线程共享）+方法区&#x2F;永久代（线程共享； 程序计数器：唯一一个不会出现OOM的区域； 虚拟机栈：描述Java方法执行的内存模型，每个方法在执行的同时会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息；每一个方法从调用到执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-14T17:02:17.000Z">
+<meta property="article:modified_time" content="2022-05-25T18:57:29.163Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Science">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Interview-JVM - Meditions</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Meditations</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/Evariste_galois.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Interview-JVM">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-15 01:02" pubdate>
+        2022年5月15日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      38 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Interview-JVM</h1>
+            
+            <div class="markdown-body">
+              <h3 id="一、JVM内存五部分组成"><a href="#一、JVM内存五部分组成" class="headerlink" title="一、JVM内存五部分组成"></a>一、JVM内存五部分组成</h3><ol>
+<li>组成：程序计数器（线程私有）+虚拟机栈（线程私有）+本地方法区（线程私有）+堆（线程共享）+方法区&#x2F;永久代（线程共享；</li>
+<li>程序计数器：唯一一个不会出现OOM的区域；</li>
+<li>虚拟机栈：描述Java方法执行的内存模型，每个方法在执行的同时会创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息；每一个方法从调用到执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程；<ol>
+<li>局部变量表：用于存储局部变量和方法参数；</li>
+<li>操作数栈：Java是采用基于栈的指令集而非基于寄存器的指令集；<ol>
+<li>基于栈的指令集：计算1+1的代码为：  <figure class="highlight gcode"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs gcode">ico<span class="hljs-symbol">nst_1</span><br>ico<span class="hljs-symbol">nst_1</span><br>iadd <br>istore_<span class="hljs-number">0</span> <br></code></pre></td></tr></table></figure></li>
+<li>基于寄存器的指令集：  <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">move <span class="hljs-built_in">eax</span>,  <span class="hljs-number">1</span><br><span class="hljs-keyword">add</span> <span class="hljs-built_in">eax</span>, <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
+<li>为什么要用基于栈的指令集：<ol>
+<li>可移植：寄存器由硬件直接提供，程序直接依赖这些硬件寄存器则不可避免要受硬件约束；</li>
+<li>代码相对紧凑；</li>
+<li>编译器实现更加简单，不需要考虑空间分配问题，所需空间都在栈上操作；</li>
+</ol>
+</li>
+<li>栈指令集的缺点：<ol>
+<li>栈架构指令集的主要缺点是执行速度相对来说会稍慢一些。所有主流物理机的指令集都是寄存器架构也从侧面印证了这一点。</li>
+<li>虽然栈架构指令集的代码非常紧凑，但是完成相同功能所需的指令数量一般会比寄存器架构多，因为出栈、入栈操作本身就产生了相当多的指令数量。</li>
+<li>更重要的是，栈实现在内存之中，频繁的栈访问也就意味着频繁的内存访问，相对于处理器来说，内存始终是执行速度的瓶颈。</li>
+<li>尽管虚拟机可以采取栈顶缓存的手段，把最常用的操作映射到寄存器中避免直接内存访问，但这也只能是优化措施而不是解决本质问题的方法。由于指令数量和内存访问的原因，所以导致了栈架构指令集的执行速度会相对较慢。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>动态链接：在一个class文件中，一个方法要调用其他方法，需要将这些方法的符号引用转化为其在内存地址中的直接引用，而符号引用存在于方法区中的运行时常量池。Java虚拟机栈中，每个栈帧都包含一个指向运行时常量池中该栈所属方法的符号引用，持有这个引用的目的是为了支持方法调用过程中的动态连接(Dynamic Linking)。这些符号引用一部分会在类加载阶段或者第一次使用时就直接转化为直接引用，这类转化称为静态解析。另一部分将在每次运行期间转化为直接引用，这类转化称为动态连接。</li>
+<li>方法出口：当一个方法开始执行时，可能有两种方式退出该方法：<ol>
+<li>正常完成出口、异常完成出口；</li>
+<li>正常完成出口是指方法正常完成并退出，没有抛出任何异常(包括Java虚拟机异常以及执行时通过throw语句显示抛出的异常)。如果当前方法正常完成，则根据当前方法返回的字节码指令，这时有可能会有返回值传递给方法调用者(调用它的方法)，或者无返回值。具体是否有返回值以及返回值的数据类型将根据该方法返回的字节码指令确定。异常完成出口是指方法执行过程中遇到异常，并且这个异常在方法体内部没有得到处理，导致方法退出。</li>
+<li>无论方法采用何种方式退出，在方法退出后都需要返回到方法被调用的位置，程序才能继续执行，方法返回时可能需要在当前栈帧中保存一些信息，用来帮他恢复它的上层方法执行状态。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>本地方法区：native</li>
+<li>堆：对象和数组都保存在堆中；</li>
+<li>方法区：用于存储JVM加载的类信息、常量、静态变量、即使编译器编译后的代码等数据；<h3 id="二、JVM运行时内存"><a href="#二、JVM运行时内存" class="headerlink" title="二、JVM运行时内存"></a>二、JVM运行时内存</h3></li>
+<li>新生代：Eden+ServivorFrom+ServivorTo：MinorGC——复制算法</li>
+<li>老年代：MajorGC——标记清除算法；</li>
+<li>永久代：存放Class和Meta，GC不会在主程序运行期对永久区域进行处理，所以这也导致了永久代的区域会随着加载Class的增多而胀满，最终抛出OOM异常；Java8中被元空间取代，不再使用虚拟机空间而是采用系统空间；<h3 id="三、垃圾回收GC"><a href="#三、垃圾回收GC" class="headerlink" title="三、垃圾回收GC"></a>三、垃圾回收GC</h3></li>
+<li>怎样判定对象死亡或者不可达？<ol>
+<li>引用计数法：为对象添加一个引用计数器，每当有一个地方引用它时，计数器就加一，引用失效时计数器就减一；</li>
+<li>可达性分析算法：通过一系列的GC Roots对象为起始点开始向下搜索，搜索走过的路径是引用链，当一个对象到GC Roots没有任何引用链相连，那么此对象就是不可达的；<ol>
+<li>哪些对象是GC Roots对象呢？<ol>
+<li>System Class——系统类</li>
+<li>JNI Local——Local variable in native code, such as user defined JNI code or JVM internal code.</li>
+<li>JNI Global ———-Global variable in native code, such as user defined JNI code or JVM internal code.</li>
+<li>Thread Block ———-Object referred to from a currently active thread block. （一个对象存活在一个阻塞的线程中）</li>
+<li>Thread ———-A started, but not stopped, thread.（一个正在运行的线程）</li>
+<li>Busy Monitor ———-Everything that has called wait() or notify() or that is synchronized. For example, by calling synchronized(Object) or by entering a synchronized method. Static method means class, non-static method means object.（用于同步的监控对象）</li>
+<li>Java Local ———-Local variable. For example, input parameters or locally created objects of methods that are still in the stack of a thread.（java 本地变量，输入参数，在线程方法本地创建的对象）</li>
+<li>Native Stack ———-In or out parameters in native code, such as user defined JNI code or JVM internal code. This is often the case as many methods have native parts and the objects handled as method parameters become GC roots. For example, parameters used for file&#x2F;network I&#x2F;O methods or reflection.（ 方法区中的类静态属性引用的对象 ，方法区中的常量引用的对象 ）</li>
+<li>System Class（系统类），Thread Block（一个对象存活在一个阻塞的线程中） ，Thread（线程），Busy Monitor （例如 synchronized(Object)），Java Local （本地变量），Finalizable （存在finalizer 对象的列表中），这几个我们较为常见。</li>
+</ol>
+</li>
+<li>java中的主流虚拟机HotSpot采用可达性分析算法来判断一个对象是否需要进行回收。那么，它是如何实现可达性算法的呢？<ol>
+<li>根节点枚举：先找出可固定作为 GC Roots 的节点，然后沿着引用链去寻找那些无用的垃圾对象。迄今为止，所有收集器在根节点枚举这一步骤时都是必须暂停用户线程，也即 Stop The World，因为如果在分析过程中出现根节点集合中对象的引用关系仍在不断变化的情况，分析结果的准确性也就无法保证了。在对栈内存进行分析时，虚拟机会看哪些位置存储了 Reference 类型，如果发现某个位置确实存的是 Reference 类型，就意味着它所引用的对象这一次不能被回收。但问题是，栈帧的本地变量表里面只有一部分数据是 Reference 类型的，那些非 Reference 类型（基本数据类型）的数据对我们毫无用处，但我们还是不得不对整个栈全部扫描一遍，这是对时间和资源的一种浪费。在 HotSpot 的解决方案中采用了一组称为 OopMap 的数据结构来实现直接找到对象引用，一旦类加载动作完成，HotSpot 就会把栈中代表引用的位置全部记录下来，这样收集器在扫描时就可以直接得知这些消息了。</li>
+<li>安全点：这部分过后去补<h3 id="四、JAVA中四种引用"><a href="#四、JAVA中四种引用" class="headerlink" title="四、JAVA中四种引用"></a>四、JAVA中四种引用</h3><h3 id="五、GC分代回收算法VS分区回收算法"><a href="#五、GC分代回收算法VS分区回收算法" class="headerlink" title="五、GC分代回收算法VS分区回收算法"></a>五、GC分代回收算法VS分区回收算法</h3><h3 id="六、GC垃圾回收器"><a href="#六、GC垃圾回收器" class="headerlink" title="六、GC垃圾回收器"></a>六、GC垃圾回收器</h3></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Serial垃圾回收器——单线程、复制算法，STW；</li>
+<li>ParNew垃圾回收器——Serial+多线程；</li>
+<li>CMS垃圾回收器：Concurrent Mark Sweep——并行标记扫描，是一款并发的老年代垃圾收集器，是通过以最短停顿时间STW为目标的回收器，采用标记清除算法，主要分为以下四个步骤：<ol>
+<li>初始标记：有STW，然后通过可达性分析算法，记录GC ROOTs能直接引用的对象；</li>
+<li>并发标记：从初始标记中GC ROOTs直接关联的对象出发，遍历整个老年代，这个过程耗时较长，但因为是并发流程，无STW；</li>
+<li>重新标记：修正并发标记过程中在初始标记阶段后发生状态改变的对象，使用三色标记中的增量更新算法，此阶段会STW；</li>
+<li>并发清理：同时开启工作线程与GC线程，GC线程主要对未标记的区域进行清理；</li>
+<li>并发重置：重置这次GC过程中的标记数据；</li>
+<li>问题：CPU资源抢占——浮动垃圾——空间碎片——concurrent mode failure问题：并发标记或者并发清理阶段如果又出发了垃圾回收，但是本次垃圾回收又没有进行完，那么则会出发concurrent mode failure，这时会进入单线程收集，先STW，然后使用serial old垃圾回收器来回收；</li>
+</ol>
+</li>
+<li>G1垃圾回收器：Garbage First</li>
+<li>对象的内存结构：<ol>
+<li>对象的内存构成——一个实例对象是以怎样的形态存在内存中的？Java对象保存在堆中的时候，由以下三部分组成：<br>1. 对象头：由两个字组成<ol>
+<li>Mark Word：用于存储对象自身的运行时数据，如hashcode、GC分代年龄、锁状态标志、线程持有锁、偏向线程ID、偏向时间戳等；</li>
+<li>klass pointer：对象指向它的类元数据的指针，JVM通过这个指针来确定这个对象是哪个类的实例；<br>2. 实例数据：对象的属性字段、父类信息；<br>3. 对齐填充： 默认情况下，Java虚拟机堆中对象的起始地址需要对齐至8的倍数。如果一个对象用不到8N个字节则需要对其填充，以此来补齐对象头和实例数据占用内存之后剩余的空间大小。</li>
+</ol>
+</li>
+<li>为什么要对齐数据？<ol>
+<li>字段内存对齐的其中一个原因，是让字段只出现在同一CPU的缓存行中。如果字段不是对齐的，那么就有可能出现跨缓存行的字段。也就是说，该字段的读取可能需要替换两个缓存行，而该字段的存储也会同时污染两个缓存行。这两种情况对程序的执行效率而言都是不利的。其实对其填充的最终目的是为了计算机高效寻址。</li>
+<li>如果对象在cache中跨数据行存储，则无法添加缓存锁，和volatile的实现机制矛盾；</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>常量池：分为class文件常量池、运行时常量池、全局字符串常量池以及基本类型包装类对象常量池；<ol>
+<li>class文件常量池：class文件常量池主要存放两大常量：字面量和符号引用；<ol>
+<li>字面量：文本字符串、用final修饰的成员变量；</li>
+<li>符号引用：类和接口的全限定名、字段的名称和描述符、方法的名称和描述符；</li>
+</ol>
+</li>
+<li>运行时常量池：方法区的一部分</li>
+</ol>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer Science</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/09/OS-Lab1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OS Lab1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/11/Interview-ComputerNet/">
+                        <span class="hidden-mobile">Interview-ComputerNet</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2022/05/15/Interview-JVM/';
+          this.page.identifier = '/2022/05/15/Interview-JVM/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,575 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Route Views ProjectOverview University of Oregon([ˈɒrɪɡən]) RouteViews Project CAIDA开发了工具BGPStream来下载和分析Route Views和RIPE RIS的BGP数据 BGPStream框架： 三层概念： 记录处理：使用 libBGPStream 处理 BGP 数据的组件。例如 BGPReader、PyB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Route Views">
+<meta property="og:url" content="http://example.com/2023/07/23/Route-Views/index.html">
+<meta property="og:site_name" content="Meditions">
+<meta property="og:description" content="Route Views ProjectOverview University of Oregon([ˈɒrɪɡən]) RouteViews Project CAIDA开发了工具BGPStream来下载和分析Route Views和RIPE RIS的BGP数据 BGPStream框架： 三层概念： 记录处理：使用 libBGPStream 处理 BGP 数据的组件。例如 BGPReader、PyB">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/07/23/Route-Views/BGPStream_Infrustructure.png">
+<meta property="og:image" content="http://example.com/2023/07/23/Route-Views/BGPStream_Intialize.png">
+<meta property="og:image" content="http://example.com/2023/07/23/Route-Views/stream_loading.png">
+<meta property="article:published_time" content="2023-07-23T08:17:20.000Z">
+<meta property="article:modified_time" content="2023-07-26T03:32:23.986Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/07/23/Route-Views/BGPStream_Infrustructure.png">
+  
+  
+  <title>Route Views - Meditions</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Meditations</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/Evariste_galois.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Route Views">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-07-23 16:17" pubdate>
+        2023年7月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Route Views</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Route-Views-Project"><a href="#Route-Views-Project" class="headerlink" title="Route Views Project"></a>Route Views Project</h1><h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ol>
+<li>University of Oregon([ˈɒrɪɡən]) RouteViews Project</li>
+<li>CAIDA开发了工具BGPStream来下载和分析Route Views和RIPE RIS的BGP数据<ol>
+<li>BGPStream框架：<img src="/2023/07/23/Route-Views/BGPStream_Infrustructure.png" srcset="/img/loading.gif" lazyload class=""></li>
+<li>三层概念：<ol>
+<li>记录处理：使用 libBGPStream 处理 BGP 数据的组件。例如 BGPReader、PyBGPStream。<ol>
+<li>BGPReader, a command-line tool to output BGP data in ASCII format</li>
+<li>PyBGPStream, Python bindings to the libBGPStream API</li>
+<li>libBGPStream提供了C++API</li>
+</ol>
+</li>
+<li>记录提取和打包：BGPStream框架的核心，由libBGPStream实现。</li>
+<li>数据访问：提供对不同 BGP 数据源的访问的组件。</li>
+</ol>
+</li>
+<li>数据访问：BGPStream提供了四种数据接口来访问数据：<ol>
+<li>BGPStream Broker（代理）：BGPStream Broker 是一种 Web 服务，它提供统一的查询接口来检索来自不同公共 数据提供商 （即 Route Views、RIPE RIS）的数据流，以及实时流资源（如 RIS-Live 和 RouteViews BMP 流）。代理接口支持 BGPStream 的几个关键功能：<ol>
+<li>对路线视图和 RIPE RIS 数据的开箱即用访问。</li>
+<li>数据归档镜像之间的负载平衡。</li>
+<li>支持实时数据处理。</li>
+<li>该方法获取数据见paper：BGPStream: A Software Framework for Live and Historical BGP Data Analysis<h2 id="BGPStream-A-Software-Framework-for-Live-and-Historical-BGP-Data-Analysis"><a href="#BGPStream-A-Software-Framework-for-Live-and-Historical-BGP-Data-Analysis" class="headerlink" title="BGPStream: A Software Framework for Live and Historical BGP Data Analysis"></a>BGPStream: A Software Framework for Live and Historical BGP Data Analysis</h2></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>RIB：BGP路由器在路由信息库（RIB）[52]中维护AS间的可达性信息，其结构分为三个集合：<ol>
+<li>Adj-RIBs-In：从邻居的入站更新消息中获知的路由。</li>
+<li>Loc-RIB：通过应用本地策略从Adj-RIB-In中选择的路由（例如，最短路径、与邻居的对等关系）;路由器将在其路由表中安装这些路由以确定将分组转发到何处。</li>
+<li>Adj-RIBs-Out：从Loc-RIB中选择的路由，路由器将向其邻居通告该路由;对于每个邻居路由器基于本地策略创建特定的Adj-RIB-Out（例如，对等关系）。</li>
+<li>[52] Y. Rekhter, T. Li, and S. Hares. A Border Gateway Protocol 4 (BGP-4). RFC 4271 (Draft Standard), Jan. 2006. Updated by RFCs 6286, 6608, 6793, 7606, 7607.</li>
+</ol>
+</li>
+<li>在BGPStream网站[12]上，我们提供了使用BGPStream API的示例代码教程。<ol>
+<li>[12] CAIDA. BGPStream. <a target="_blank" rel="noopener" href="https://bgpstream.caida.org/">https://bgpstream.caida.org/</a>, 2016.</li>
+</ol>
+</li>
+<li>BGP collection process:<ol>
+<li>BGP collector和一个vantage point（VP——探测点，BGP中就是提供BGP信息的路由器）建立链接并获取Adj-RIBS-Out（路由器通过本地的update message通告给特定peer的路由信息）数据的映像；</li>
+<li>BGP collector以不同的周期存储：<ol>
+<li>所有的VP Adj-RIB-out表格——RIB dump（转储）——所有VP发出的update message</li>
+<li>该时间段内所有VP接收的update messages——updates dump——所有VP接收的update message</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>BGPstream Broker：meta data提供者——由于Route Views和RIPE RIS的数据是以文件形式存储的，爬取太过麻烦，所以由BGPStream Broker进行定期爬取并存入数据库以供查询</li>
+</ol>
+<h2 id="BGPStream-Installing"><a href="#BGPStream-Installing" class="headerlink" title="BGPStream Installing"></a>BGPStream Installing</h2><p>BGPStream框架由libBGPStream和PyBGPStream组成，其中前者是C库，后者是Python包，这里只关注后者；</p>
+<ol>
+<li>Installing PyBGPStream：<a target="_blank" rel="noopener" href="https://bgpstream.caida.org/docs/install/pybgpstream">https://bgpstream.caida.org/docs/install/pybgpstream</a><ol>
+<li>下载pybgpstream时报错</li>
+</ol>
+</li>
+<li>PyBGPStream Tutorial：<a target="_blank" rel="noopener" href="https://bgpstream.caida.org/docs/tutorials/pybgpstream">https://bgpstream.caida.org/docs/tutorials/pybgpstream</a><ol>
+<li>BGPStream实例化：在创建 BGPStream 实例的过程中，我们还添加了一些过滤器来缩小流的范围。<img src="/2023/07/23/Route-Views/BGPStream_Intialize.png" srcset="/img/loading.gif" lazyload class=""><ol>
+<li>from_time并until_time指定流的开始和结束时间</li>
+<li>collectors缩小流范围以获取来自指定收集器的记录，收集器见<a target="_blank" rel="noopener" href="https://bgpstream.caida.org/data">https://bgpstream.caida.org/data</a></li>
+<li>record_type&#x3D;”updates”表明我们只需要更新（即不需要 RIB 转储）</li>
+<li>filter字符串指定更灵活和更强大的过滤条件，详细内容见<a target="_blank" rel="noopener" href="https://github.com/CAIDA/libbgpstream/blob/master/FILTERING">https://github.com/CAIDA/libbgpstream/blob/master/FILTERING</a></li>
+</ol>
+</li>
+<li>此时我们可以启动流，并重复请求新的 BGP 元素。每次读取有效记录时，我们都会从中提取它包含的 elem 并打印记录和 elem 字段。如果发现无效记录，我们不会尝试提取元素。<img src="/2023/07/23/Route-Views/stream_loading.png" srcset="/img/loading.gif" lazyload class=""></li>
+</ol>
+</li>
+<li>例子<ol>
+<li>数据实例：(RIB dump or updates dump)update|(type)A|(time)1499385779.000000|(project)routeviews|(collector)route-views.eqix|(router)None|()None|(peer_asn)11666|(peer_address)206.126.236.24| (prefix)210.180.224.0&#x2F;19|(next_hop)206.126.236.24|(as_path)11666 3356 3786|(communities)11666:1000 3356:666 11666:1002 3356:86 3356:22 3356:3 3356:575 3786:0 3356:2003|None|None</li>
+<li>BGPStream、BGPRecord、BGPElem三个类的用法、属性见：  <ol>
+<li><a target="_blank" rel="noopener" href="https://bgpstream.caida.org/docs/api/pybgpstream/_pybgpstream.html">https://bgpstream.caida.org/docs/api/pybgpstream/_pybgpstream.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://bgpstream.caida.org/docs/tutorials/pybgpstream">https://bgpstream.caida.org/docs/tutorials/pybgpstream</a></li>
+<li>“BGPStream: A Software Framework for Live and<br>Historical BGP Data Analysis”中的代码部分</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/07/24/Algorithm-Complexity/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Algorithm Complexity</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/19/Topology-Datasets/">
+                        <span class="hidden-mobile">Topology Datasets</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2023/07/23/Route-Views/';
+          this.page.identifier = '/2023/07/23/Route-Views/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

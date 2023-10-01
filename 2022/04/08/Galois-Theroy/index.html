@@ -1,0 +1,561 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="什么是对称？ 为了获得这种艾多斯，我们从几个例子进行直观：  正方形是对称的； 物理定律是对称的； 多项式方程根的加法和乘法的结果是对称的；  对称就是“基于某种操作下的不变性”。  正方形绕中心点旋转90度、180度、270度、360度是不变的，因此我们叫这种对称为中心对称。正方形沿对角线对折可以重合，这可以等价为正方形绕对角线旋转180度、360度是不变的。同样的绕着中垂线旋转正方形也是不变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Galois Theroy(1)">
+<meta property="og:url" content="http://example.com/2022/04/08/Galois-Theroy/index.html">
+<meta property="og:site_name" content="Meditions">
+<meta property="og:description" content="什么是对称？ 为了获得这种艾多斯，我们从几个例子进行直观：  正方形是对称的； 物理定律是对称的； 多项式方程根的加法和乘法的结果是对称的；  对称就是“基于某种操作下的不变性”。  正方形绕中心点旋转90度、180度、270度、360度是不变的，因此我们叫这种对称为中心对称。正方形沿对角线对折可以重合，这可以等价为正方形绕对角线旋转180度、360度是不变的。同样的绕着中垂线旋转正方形也是不变">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-08T13:26:58.000Z">
+<meta property="article:modified_time" content="2022-04-08T14:55:30.944Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Mathematics">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Galois Theroy(1) - Meditions</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Meditations</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/Evariste_galois.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Galois Theroy(1)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-08 21:26" pubdate>
+        2022年4月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Galois Theroy(1)</h1>
+            
+            <div class="markdown-body">
+              <ol>
+<li><p>什么是对称？</p>
+<p>为了获得这种艾多斯，我们从几个例子进行直观：</p>
+<ul>
+<li>正方形是对称的；</li>
+<li>物理定律是对称的；</li>
+<li>多项式方程根的加法和乘法的结果是对称的；</li>
+</ul>
+<p>对称就是“基于某种操作下的不变性”。</p>
+<ol>
+<li>正方形绕中心点旋转90度、180度、270度、360度是不变的，因此我们叫这种对称为中心对称。正方形沿对角线对折可以重合，这可以等价为正方形绕对角线旋转180度、360度是不变的。同样的绕着中垂线旋转正方形也是不变的。</li>
+<li>从(i)中可知，正方形的三种对称的唯一区别就是三组操作不同：<code>&#123;“绕中心点旋转n* 90度”，“绕对角线旋转n* 180度”，“绕着中垂线旋转n* 180度”&#125;</code>对此我们可以进一步还原——将正方形换成长宽相等的十字架、圆等形状同等操作下的对称性仍然成立，根据胡塞尔的本质还原理论，我们可以进一步将形状从对称的本质领域剔除，因此还原得到的对称的本质就只剩下“操作”了。</li>
+<li>根据(ii)中的结论，是“操作”使某一种对称成为了那种对称。在此基础上我们继续看物理定律的对称，物理定律从古到今是不变的，因此物理定律的对称是基于时间的对称。历史在现在及未来是不变的，因此历史基于现在及未来的时间是对称的；</li>
+</ol>
+</li>
+<li><p>对称的数学表示</p>
+<ul>
+<li>我们要描述的是某一种对称的本质，根据(1)中的结论，我们要描述的就是某一种“操作”，那么接下来我们进一步对“操作”进行分析；</li>
+<li>我们还是用一个例子进行直观，那(1)中的(ii)中集合的第一个元素“绕中心点旋转n* 90度”进行分析；</li>
+<li>这个操作包含了两部分：一个动作“绕中心点旋转”+动作的量n*90度；</li>
+<li>“绕中心点旋转”是共同部分，但由于剔除这部分会导致无法识别对称，因此我们要保留这部分语义，而第二部分由于涉及量，我们就可以定义运算；</li>
+<li>于是我们得到这样一种表达：0表示绕中心点旋转0度，r表示绕中心点旋转90度，2r表示绕中心点旋转180度，3r表示270度递增，由此我们得到一个操作集合<code>G=&#123;0, r, 2r, 3r&#125;</code>并且我们发现当旋转270度后再旋转90度又相当于旋转了0度；</li>
+<li>而基于这个集合可以发现不同操作的量之间是加法关系，因此定义的运算为抽象的加法；</li>
+<li>同理我们还可以得到另一种操作集合<code>H=&#123;1, r, r^2, r^3&#125;</code>，那么基于这个集合操作的量之间的关系，我们定义抽象乘法操作；</li>
+</ul>
+</li>
+<li><p>群的定义</p>
+<ol>
+<li><p>根据(2)的结论，对于对称的描述需要一个操作集合和一个基于这个集合的运算，我们把这两部分合起来用字母定义就得到了群；</p>
+</li>
+<li><p>假设操作集合用G表示，抽象运算用  ·表示，那么(G, ·)就表示一个对称；</p>
+</li>
+<li><p>由(2)知，这个对称还有如下性质：</p>
+<ul>
+<li>G中的任意两个元素做·运算得到的元素必还存在于G中——封闭性；</li>
+<li>G中的三个元素做·运算满足结合律；</li>
+<li>存在一个单位元e，它和任意元素做运算都会得到这个元素自身；</li>
+<li>任何一个元素都存在逆元，即a·b&#x3D;e，a和b互为逆元；</li>
+</ul>
+</li>
+<li><p>我们把满足上面四条的(G, ·)成为群；</p>
+</li>
+</ol>
+</li>
+<li><p>群的同构</p>
+<ol>
+<li>从(2)中对正方形中心对称的两种表达，即(G, +)和(H, *)开看，虽然集合的内容和定义的运算不同，但他们却有着相同的内涵——同一种结构的对称，可知这两个群是具有某种同一性的，我们称之为同构；</li>
+</ol>
+</li>
+<li><p>多项式方程根的加法和乘法结果的对称</p>
+<ul>
+<li>我们那一元二次方程ax^2+bx+c&#x3D;0来就来举例，根据韦达定理我们知道x1+x2&#x3D;-b&#x2F;a, x1*x2&#x3D;c&#x2F;a;</li>
+<li>由此我们得到了这个一元二次方程的根的加法和乘法在互换加数和乘数的情况下结果是不变的，即x2+x1&#x3D;x1+x2, x1<em>x2&#x3D;x2</em>x1；</li>
+<li>并且我们还可以进一步排除方程具体性的影响，即换一个方程上面的等式还成立，由此我们就得到了一元二次方程加法和乘法结果的对称，这种对称的本质是“互换”操作；</li>
+<li>我们把这个对称表达出来，就是<code>G=&#123;0, r&#125;</code>分别表示互换0次，互换1次，互换两次又回到了0次，因此定义的运算是加法，我们得到了一个群(G, +);</li>
+<li>这个群就是著名的伽罗瓦群，关于伽罗瓦理论的提出和具体内容见下一篇；</li>
+</ul>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Mathematics/">Mathematics</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/10/Speculation/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Speculation</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/08/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2022/04/08/Galois-Theroy/';
+          this.page.identifier = '/2022/04/08/Galois-Theroy/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

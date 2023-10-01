@@ -1,0 +1,684 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数据库三大范式： 第一范式：列不可拆分； 第二范式：非主键依赖主键而非主键的一部分； 第三范式：非主键只依赖主键而非其他非主键；   MySQL的binlog有几种录入格式？分别有什么区别？ statement：只记录SQL语句而不记录每一行的变化，减少了binlog的记录量，节约了IO提高了性能； row：记录了每一行的变化，但是文件的保存信息太多，日志量太大； mixed：普通操作使用sta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Interview-Database">
+<meta property="og:url" content="http://example.com/2022/04/23/Interview-Database/index.html">
+<meta property="og:site_name" content="Meditions">
+<meta property="og:description" content="数据库三大范式： 第一范式：列不可拆分； 第二范式：非主键依赖主键而非主键的一部分； 第三范式：非主键只依赖主键而非其他非主键；   MySQL的binlog有几种录入格式？分别有什么区别？ statement：只记录SQL语句而不记录每一行的变化，减少了binlog的记录量，节约了IO提高了性能； row：记录了每一行的变化，但是文件的保存信息太多，日志量太大； mixed：普通操作使用sta">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-23T05:23:42.000Z">
+<meta property="article:modified_time" content="2022-05-26T08:28:49.164Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Science">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Interview-Database - Meditions</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Meditations</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/Evariste_galois.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Interview-Database">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-23 13:23" pubdate>
+        2022年4月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      37 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Interview-Database</h1>
+            
+            <div class="markdown-body">
+              <ol>
+<li>数据库三大范式：<ol>
+<li>第一范式：列不可拆分；</li>
+<li>第二范式：非主键依赖主键而非主键的一部分；</li>
+<li>第三范式：非主键只依赖主键而非其他非主键；</li>
+</ol>
+</li>
+<li>MySQL的binlog有几种录入格式？分别有什么区别？<ol>
+<li>statement：只记录SQL语句而不记录每一行的变化，减少了binlog的记录量，节约了IO提高了性能；</li>
+<li>row：记录了每一行的变化，但是文件的保存信息太多，日志量太大；</li>
+<li>mixed：普通操作使用statement记录，无法使用statement的时候使用row；</li>
+</ol>
+</li>
+<li>MyISAM索引和InnoDB索引的区别：</li>
+<li>InnoDB引擎的4大特性：<ol>
+<li>插入缓冲：</li>
+<li>二次写：</li>
+<li>自适应哈希索引：</li>
+<li>预读：</li>
+</ol>
+</li>
+<li>索引的类型：<ol>
+<li>主键索引：数据列不允许重复，不允许为null，一个表只能有一个主键。</li>
+<li>唯一索引：数据列不允许重复，允许为null，一个表允许多个列创建唯一索引。</li>
+<li>普通索引，没有唯一性的限制，允许为null。</li>
+<li>全文索引；</li>
+</ol>
+</li>
+<li>最左前缀匹配原则：mysql可以创建联合索引即多列的索引，一个索引可以包含最多16列。</li>
+<li>聚簇索引：将数据和索引存储到一起；</li>
+<li>非聚簇索引：数据和索引分开存放，索引的叶子节点指向数据的对应行；</li>
+<li>联合索引：</li>
+<li>事务：一个不可分割的数据库操作系列，也是数据库并发控制的基本单位，其执行结果必须使数据库从一种一致性状态转变为另一种一致性状态。</li>
+<li>事务的四大特性ACID：<ol>
+<li>原子性：事务是最小执行单位，不允许分割。事务的原子性是通过undo log日志进行实现的，当事务需要回滚的时候，InnoDB就调用undo log日志进行SQL语句的撤销，实现数据的回滚；</li>
+<li>一致性：多个事务对同一个数据读取的结果是相同的；</li>
+<li>隔离性：并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间的数据库是独立的；</li>
+<li>持久性：事务提交后对数据库的改变是不受故障等因素影响的，事务的持久性是通过InnoDB存储引擎中的redo log日志来实现的；</li>
+</ol>
+</li>
+<li>脏读、幻读、不可重复读：<ol>
+<li>脏读：一个事务更改数据还未提交，另一个事务在此时就读了还未提交的数据，如果另一个事务回滚了或者没有顺利提交，那么这个数据就没有被修改，但这个没有修改的数据却被读了，这显然不合理；</li>
+<li>不可重复读：一个事务在两次查询之中数据不一致；</li>
+<li>幻读：先后两此查询的数据得到的行数不同；</li>
+</ol>
+</li>
+<li>事务隔离级别：为了达到事务的四大特性，数据库定义了4种不同的事务隔离别；<ol>
+<li>Read-uncommitted：允许读取尚未提交的数据变更，可能导致脏读、不可重复读、幻读；</li>
+<li>Read committed：允许读取并发事务已提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。</li>
+<li>Repeatable read：可重复读，对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己修改的，可以阻止脏读和不可重复读，但幻读仍有可能发生。</li>
+<li>Serializable：可串行化，所有事务一次逐个执行，完全符合ACID；</li>
+</ol>
+</li>
+<li>隔离级别与锁的关系：<ol>
+<li>在Read uncommitted级别下，读取数据不需要加共享锁，这样就不会跟被修改的数据上的排他锁冲突；</li>
+<li>Read committed级别下读操作需要加共享锁，但是在语句执行完以后释放共享锁；</li>
+<li>Repeatable Read级别下，读操作需要加共享锁，但是在事务提交之前并不释放共享锁；</li>
+<li>Serializable：该级别锁定整个范围的键，并一直持有锁，直到事务完成；</li>
+</ol>
+</li>
+<li>锁分类：<ol>
+<li>行级锁：只针对当前操作的行进行加锁，行级锁能大大减少数据库操作的冲突。其加锁粒度最小，但开锁的开销也最大，行级锁分为共享锁和排他锁，有死锁；</li>
+<li>表级锁：对当前操作的整张表加锁。实现简单消耗资源少。表级锁分为共享读锁和独占写锁（排他锁），开销小，加锁快，无死锁。</li>
+<li>页级锁：粒度介于行级锁和表级锁中间的一种锁，表级锁加速快，但冲突多，行级锁冲突少，但速度慢。所以取了折中的页级，一次锁定相邻的一组记录；</li>
+</ol>
+</li>
+<li>共享锁和排他锁：<ol>
+<li>共享锁又叫读锁，当用户要进行数据的读取时对数据加上共享锁。</li>
+<li>排他锁又叫写锁：排他锁只可以加一个，它和其他的排他锁、共享锁互斥；</li>
+</ol>
+</li>
+<li>InnoDB存储引擎的锁算法有哪三种？<ol>
+<li>Record lock：单个行记录上的锁；</li>
+<li>Gap Lock：间隙锁，锁定一个范围，不包括记录本身；</li>
+<li>Next-key lock：锁定一个范围包括范围本身；</li>
+</ol>
+</li>
+<li>MySQL的主从复制：<ol>
+<li>将原来的数据库复制一个一样的，原来的叫主数据库，复制的叫从数据库。从数据库会与主数据库进行数据同步，保持二者的数据一致性；</li>
+<li>主从复制的原理是通过binlog日志实现的。binlog日志中保存了数据库中所有SQL语句，通过对binlog日志中SQL的复制，然后再进行语句的执行即可实现同步；</li>
+<li>实现主从复制主要靠三个线程：运行在主服务器的发送线程，用于发送binlog到从服务器，运行在从服务器上的I&#x2F;O线程用于读取从主服务器发来的binlog内容并拷贝到本地的中继日志中，运行在从服务器上的SQL线程用于读取中继日志中关于数据更新的SQL语句并执行，从而实现主从库的数据一致；</li>
+</ol>
+</li>
+<li>MVCC：Multi-Version Concurrency Control，多版本并发控制协议，实现Repeatable Read隔离级别的机制；</li>
+<li>redo log日志是InnoDB引擎层的日志，用来记录事务操作引起数据的变化，记录的是数据页的物理修改：<ol>
+<li>预写式技术：InnoDB引擎对数据的更新，是先将更新数据记录写入redo log日志，然后在系统空闲的时候或者是按照设定的更新策略再将日志中的内容更新到磁盘中。</li>
+<li>redo log的大小是固定的，为了能够持续不断的对更新记录进行写入，在redo log日志中设置了两个标志位，checkpoint和write_pos，分别记录了擦除的位置和写入的位置，[write_pos, checkpoint]之间是可写入的区间；</li>
+<li>当write_pos标志到了日志结尾时，会从结尾跳到日志头部，重新循环写入。</li>
+<li>当write_pos追上checkpoint表示redo log已经写满，需要停下来删除一些记录，执行checkpoint规则腾出可写空间；</li>
+<li>checkpoint规则：checkpoint触发后，将buffer中脏数据页和脏日志页都刷新到磁盘；</li>
+<li>脏数据：内存中未刷到磁盘的数据；</li>
+<li>redo log中最重要的概念就是缓冲池buffer pool，这是在内存中分配的一个区域，包含了磁盘中部分数据页的映射，作为访问数据库的缓冲；</li>
+<li>当请求读取数据时，会先判断是否在缓冲池命中，如果未命中才会在磁盘上进行检索后放入缓冲池；</li>
+<li>当请求写入数据时，会先写入缓冲池，缓冲池中修改的数据会定期刷新到磁盘中。这一过程也称为刷脏；</li>
+<li>因此，当数据修改时，除了修改buffer pool中的数据，还会在redo log中记录这次操作；当事务提交时，会根据redo log的记录对数据进行刷盘。如果MySQL宕机，重启时可以读取redo log中的数据，对数据库进行恢复，从而保证了事务的持久性。</li>
+</ol>
+</li>
+<li>脏日志刷盘：<ol>
+<li>为了保证日志文件的持久化，也需要经历将日志记录从内存写入磁盘的过程。redo log分为两部分，一是存在易失性内存中的缓存日志redo log buff，二是保存在磁盘上的redo log file；</li>
+<li>脏日志刷盘调用操作系统的fsync操作，fsync函数用于同步内存中所有已修改的文件数据到储存设备；</li>
+</ol>
+</li>
+<li>二进制日志binlog：是一种服务层日志，所有引擎都可以使用；<ol>
+<li>还称为归档日志，记录数据库的变化情况。所有涉及数据变动的操作都要记录其中。因此有了binlog可以很方便的对数据进行复制和备份，因而也常用作主从库的同步；</li>
+<li>binlog输入磁盘的几种模式：<ol>
+<li>STATEMENT：基于SQL语句的复制；</li>
+<li>ROW：基于行的复制——被修改的行写入binlog；</li>
+<li>MIXED：基于上述两种的混合复制；</li>
+</ol>
+</li>
+<li>binlog和redo log的区别：<ol>
+<li>redo log是一种物理日志，记录的是实际数据库中数据页上的变化信息，即某个位置变成了什么数据；</li>
+<li>binlog是一种逻辑日志，是记录操作的，比如sql语句，也可以记录某一行数据变0化或者二者结合——一般的复制使用STATEMENT，对于STATEMENT模式无法复制的操作使用ROW模式保存；</li>
+<li>redo log是基于crash recovery，保证MySQL宕机后的数据恢复；而binlog是基于point-in-time recovery，保证服务器可以基于时间点对数据进行恢复，或者对数据进行备份；</li>
+<li>binlog是追加写入，不会覆盖已写文件，redo log日志是循环写入和擦除；</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>回滚日志undo log：引擎层日志；<ol>
+<li>当数据库修改时除了记录redo log还会生成对应的undo log，如果事务执行失败或者调用了rollback，就利用undolog将数据回滚到修改之前的样子；</li>
+<li>undo log不同于redo log，它属于逻辑日志，它对SQL语句执行相关的信息进行记录。当发生回滚时，InnoDB引擎会根据undo log日志中的记录做与之相反的工作。</li>
+<li>undo日志一个是提供回滚操作，二是实现MVCC；</li>
+</ol>
+</li>
+<li>一条SQL语句的执行过程：<ol>
+<li>连接建立；</li>
+<li>SQL查询解析器：类似于编译；</li>
+<li>SQL查询优化器：优化SQL语句，生成执行计划，选择相应索引，选择相应的引擎去执行SQL；</li>
+<li>执行器：调用存储引擎接口执行SQL语句；</li>
+<li>存储引擎读取Buffer Pool缓冲，未命中则去磁盘中查找；</li>
+<li>将这条语句加载到undo log中；</li>
+<li>redo log将数据被修改后的情况记录在redo log buffer中；</li>
+<li>事务被提交时，将redo log buffer中的数据写入redo log file中；</li>
+<li>将本次记录写入binlog文件；</li>
+<li>将binlog文件名字和更新内容在binlog中的位置记录在redo log中，同时在redo log最后添加commit标记；</li>
+</ol>
+</li>
+<li>索引失效：<ol>
+<li>违反最左前缀原则</li>
+<li>在索引列上使用内置函数；</li>
+<li>查询条件包含or</li>
+<li>使用不等于</li>
+<li>like以通配符开头</li>
+<li>字符串不加单引号</li>
+<li>当mysql估计使用全表扫描要比使用索引快，则不使用索引</li>
+</ol>
+</li>
+<li>InnoDB和MyISAM的区别：<ol>
+<li>InnoDB支持事务，MyISAM不支持事务；</li>
+<li>InnoDB支持外键，MyISAM不支持外键；</li>
+<li>InnoDB支持MVCC，MyISAM不支持；</li>
+<li>MyISAM有一个变量保存了整个表的总行数，可以直接读取总行数，而InnoDB需要扫描全表；</li>
+<li>InnoDB支持表、行级锁，MyISAM只支持表级锁；</li>
+<li>InnoDB必须有主键，而MyISAM可以没有主键；</li>
+<li>InnoDB按主键大小有序插入，MyISAM记录是按插入顺序保存；</li>
+</ol>
+</li>
+<li>MySQL的索引：<ol>
+<li>按数据结构维度：<ol>
+<li>B+树索引；</li>
+<li>哈希索引；</li>
+<li>全文索引；</li>
+<li>R-Tree索引；</li>
+</ol>
+</li>
+<li>物理存储维度：<ol>
+<li>聚簇索引；</li>
+<li>非聚簇索引；</li>
+</ol>
+</li>
+<li>逻辑维度：<ol>
+<li>主键索引；</li>
+<li>普通索引；</li>
+<li>联合索引；</li>
+<li>唯一索引；</li>
+<li>空间索引；</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer Science</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/28/Interview-Java/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Interview Java</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/20/Interview-Rudimentary-Skills-of-Computer-Science(1)/">
+                        <span class="hidden-mobile">Rudimentary Skills of Computer Science</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://example.com/2022/04/23/Interview-Database/';
+          this.page.identifier = '/2022/04/23/Interview-Database/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
