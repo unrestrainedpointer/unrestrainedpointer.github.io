@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/10/01/2023-10-05-weekly-report/result.png">
 <meta property="article:published_time" content="2023-10-01T06:13:16.000Z">
-<meta property="article:modified_time" content="2023-10-01T12:33:03.086Z">
+<meta property="article:modified_time" content="2023-10-01T12:37:50.526Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/10/01/2023-10-05-weekly-report/result.png">
@@ -292,15 +292,11 @@
 </blockquote>
 </li>
 <li>score（X，y [，sample_weight]）<blockquote>
-<p>返回给定测试数据和标签上的平均准确度</p>
+<p>返回给定测试数据和标签上的平均准确度 </p>
 </blockquote>
-</li>
+<h3 id="数据生成"><a href="#数据生成" class="headerlink" title="数据生成"></a>数据生成</h3></li>
 </ol>
 </li>
-</ol>
-</li>
-<li><p>数据生成</p>
-<ol>
 <li>我们要创建的数据是$y&#x3D;x_0^2-x_1^2+x_1+1$因此是一个立体的曲面<figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">x0</span> = np.arange(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>/<span class="hljs-number">10</span>.)<br><span class="hljs-attribute">x1</span> = np.arange(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>/<span class="hljs-number">10</span>.)<br><span class="hljs-attribute">x0</span>, x1 = np.meshgrid(x0, x1)<br><span class="hljs-attribute">y_truth</span> = x0**<span class="hljs-number">2</span> - x1**<span class="hljs-number">2</span> + x1 - <span class="hljs-number">1</span><br><br><span class="hljs-attribute">rng</span> = check_random_state(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># Training samples</span><br><span class="hljs-attribute">X_train</span> = rng.uniform(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">100</span>).reshape(<span class="hljs-number">50</span>, <span class="hljs-number">2</span>)<br><span class="hljs-attribute">y_train</span> = X_train[:, <span class="hljs-number">0</span>]**<span class="hljs-number">2</span> - X_train[:, <span class="hljs-number">1</span>]**<span class="hljs-number">2</span> + X_train[:, <span class="hljs-number">1</span>] - <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
 <li>numpy.arange(start, stop, step, dtype)<blockquote>
 <p>start    起始值，默认为0</p>
@@ -335,11 +331,7 @@
 <p><code>X_train[:, 0]</code>由于这是一个二维数组，所以逗号之前是行切片，逗号之后是列切片，这个表示所有行的第一列。</p>
 <p>关于ndarray的索引还有更高级的用法，请见其他博客</p>
 </blockquote>
-</li>
-</ol>
-</li>
-<li><p>用神经网络训练一个回归模型来预测这个函数</p>
-<ol>
+<h3 id="用神经网络训练一个回归模型来预测这个函数"><a href="#用神经网络训练一个回归模型来预测这个函数" class="headerlink" title="用神经网络训练一个回归模型来预测这个函数"></a>用神经网络训练一个回归模型来预测这个函数</h3></li>
 <li><code>from sklearn.neural_network import MLPRegressor</code>MLPRegressor的参数与上文的MLPClassifier差不多.</li>
 </ol>
 <p><code>net = MLPRegressor(hidden_layer_sizes=(100,50), activation=&#39;relu&#39;,solver=&#39;adam&#39;, alpha=0.01,max_iter=200)</code></p>
@@ -367,8 +359,8 @@
 </li>
 </ol>
 </li>
-<li><p>画图</p>
-<ol>
+</ol>
+<h3 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h3><ol>
 <li><p>figure</p>
 <p><code>fig = plt.figure(figsize=(12, 10))</code></p>
 <blockquote>
@@ -393,8 +385,6 @@
 <p>Axes          坐标轴(实际画图的地方)</p>
 <p><code>fig.add_subplot(1, 2, i+1, projection=&#39;3d&#39;)</code>表示添加子图是1行两个第$i+1$个子图</p>
 </blockquote>
-</li>
-</ol>
 </li>
 <li><p>训练完成，结果如下：</p>
 <img src="/2023/10/01/2023-10-05-weekly-report/result.png" srcset="/img/loading.gif" lazyload class=""></li>
@@ -422,8 +412,7 @@
 </blockquote>
 <p>random_state: 整数, RandomState实例 或者 None, 可选(默认值&#x3D;None)如果是int，则random_state是随机数生成器使用的种子；如果是random state实例，则random_state是随机数生成器；如果没有，则随机数生成器是使用的RandomState实例按“np.random”</p>
 </blockquote>
-</li>
-<li>使用神经网络生成的数据作为输入训练符号回归模型，然后生成公式<blockquote>
+<h3 id="使用神经网络生成的数据作为输入训练符号回归模型，然后生成公式"><a href="#使用神经网络生成的数据作为输入训练符号回归模型，然后生成公式" class="headerlink" title="使用神经网络生成的数据作为输入训练符号回归模型，然后生成公式"></a>使用神经网络生成的数据作为输入训练符号回归模型，然后生成公式</h3><blockquote>
 <p><code>est_gp.fit(np.c_[x0.ravel(), x1.ravel()], y_sr)</code></p>
 <p><code>print(est_gp)</code></p>
 <p>out:<code>add(-0.986, X1)</code></p>
