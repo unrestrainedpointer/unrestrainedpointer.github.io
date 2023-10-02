@@ -13,27 +13,33 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="Zx Guan">
   <meta name="keywords" content="">
   
-    <meta name="description" content="2023-10-05 Weekly Report Scheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述，发现可行的领域  SDN Topology Discovery(There is a review)  Int">
+    <meta name="description" content="2023-10-05 weekly report   Scheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述，发现可行的领域  SDN Topology Discovery(There is a review)  I">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2023-10-05 weekly report">
 <meta property="og:url" content="http://example.com/2023/10/01/2023-10-05-weekly-report/index.html">
 <meta property="og:site_name" content="Meditions">
-<meta property="og:description" content="2023-10-05 Weekly Report Scheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述，发现可行的领域  SDN Topology Discovery(There is a review)  Int">
+<meta property="og:description" content="2023-10-05 weekly report   Scheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述，发现可行的领域  SDN Topology Discovery(There is a review)  I">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img.shields.io/badge/python-3.8-blue?logo=python">
 <meta property="og:image" content="https://img.shields.io/badge/sklearn-1.3.0-blue?logo=sklearn">
+<meta property="og:image" content="https://img.shields.io/badge/python-3.8-blue?logo=python">
 <meta property="og:image" content="https://img.shields.io/badge/gplearn-0.4.2-blue?logo=gplearn">
 <meta property="og:image" content="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI">
+<meta property="og:image" content="https://img.shields.io/badge/matplotlib-3.7.2-blue?logo=matplotlib">
+<meta property="og:image" content="https://img.shields.io/badge/sklearn-1.3.0-blue?logo=sklearn">
+<meta property="og:image" content="https://img.shields.io/badge/python-3.8-blue?logo=python">
+<meta property="og:image" content="https://img.shields.io/badge/matplotlib-3.7.2-blue?logo=matplotlib">
 <meta property="og:image" content="http://example.com/2023/10/01/2023-10-05-weekly-report/result.png">
+<meta property="og:image" content="https://img.shields.io/badge/gplearn-0.4.2-blue?logo=gplearn">
+<meta property="og:image" content="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI">
 <meta property="article:published_time" content="2023-10-01T06:13:16.000Z">
-<meta property="article:modified_time" content="2023-10-02T08:31:16.017Z">
+<meta property="article:modified_time" content="2023-10-02T09:30:52.035Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Symbolic Regression">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img.shields.io/badge/python-3.8-blue?logo=python">
+<meta name="twitter:image" content="https://img.shields.io/badge/sklearn-1.3.0-blue?logo=sklearn">
   
   
   <title>2023-10-05 weekly report - Meditions</title>
@@ -73,7 +79,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -189,6 +195,11 @@
             
               <div class="mt-3">
   
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Zx Guan
+    </span>
+  
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
@@ -251,9 +262,14 @@
             <!-- SEO header -->
             <h1 style="display: none">2023-10-05 weekly report</h1>
             
+              <p class="note note-info">
+                
+                  本文最后更新于：几秒前
+                
+              </p>
+            
             <div class="markdown-body">
-              <h1 id="2023-10-05-Weekly-Report"><a href="#2023-10-05-Weekly-Report" class="headerlink" title="2023-10-05 Weekly Report"></a>2023-10-05 Weekly Report</h1><p><a target="_blank" rel="noopener" href="https://python.org/"><img src="https://img.shields.io/badge/python-3.8-blue?logo=python" srcset="/img/loading.gif" lazyload alt="Static Badge"></a><br><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/"><img src="https://img.shields.io/badge/sklearn-1.3.0-blue?logo=sklearn" srcset="/img/loading.gif" lazyload alt="SKLearnVersion"></a><br><a target="_blank" rel="noopener" href="https://gplearn.readthedocs.io/en/stable/"><img src="https://img.shields.io/badge/gplearn-0.4.2-blue?logo=gplearn" srcset="/img/loading.gif" lazyload alt="GPLearnVersion"></a><br><a target="_blank" rel="noopener" href="https://www.usenix.org/conference/nsdi20/presentation/vermeulen"><img src="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI" srcset="/img/loading.gif" lazyload alt="DiamondDiscovery"></a></p>
-<h2 id="Scheme"><a href="#Scheme" class="headerlink" title="Scheme"></a>Scheme</h2><h3 id="2023-10-01"><a href="#2023-10-01" class="headerlink" title="2023-10-01"></a>2023-10-01</h3><ul>
+              <h1 id="2023-10-05-weekly-report"><a href="#2023-10-05-weekly-report" class="headerlink" title="2023-10-05 weekly report"></a>2023-10-05 weekly report</h1><h2 id=""><a href="#" class="headerlink" title="   "></a><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/"><img src="https://img.shields.io/badge/sklearn-1.3.0-blue?logo=sklearn" srcset="/img/loading.gif" lazyload alt="SKLearnVersion"></a> <a target="_blank" rel="noopener" href="https://python.org/"><img src="https://img.shields.io/badge/python-3.8-blue?logo=python" srcset="/img/loading.gif" lazyload alt="Static Badge"></a> <a target="_blank" rel="noopener" href="https://gplearn.readthedocs.io/en/stable/"><img src="https://img.shields.io/badge/gplearn-0.4.2-blue?logo=gplearn" srcset="/img/loading.gif" lazyload alt="GPLearnVersion"></a> <a target="_blank" rel="noopener" href="https://www.usenix.org/conference/nsdi20/presentation/vermeulen"><img src="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI" srcset="/img/loading.gif" lazyload alt="DiamondDiscovery"></a><a target="_blank" rel="noopener" href="https://matplotlib.org/"><img src="https://img.shields.io/badge/matplotlib-3.7.2-blue?logo=matplotlib" srcset="/img/loading.gif" lazyload alt="MatplotlibVersion"></a></h2><h2 id="Scheme"><a href="#Scheme" class="headerlink" title="Scheme"></a>Scheme</h2><h3 id="2023-10-01"><a href="#2023-10-01" class="headerlink" title="2023-10-01"></a>2023-10-01</h3><ul>
 <li><input disabled="" type="checkbox"> 训练神经网络样本并进行符号回归<ul>
 <li><input checked="" disabled="" type="checkbox"> 训练神经网络：生成数据集、使用MLPRegressor</li>
 <li><input checked="" disabled="" type="checkbox"> 训练符号回归：获取数据、使用SymbolicRegressor</li>
@@ -271,7 +287,7 @@
 <li><input disabled="" type="checkbox"> 调研符号回归的评价方法</li>
 <li><input disabled="" type="checkbox"> 联系CAIDA询问工具问题</li>
 </ul>
-<h2 id="python-sklearn-neural-network"><a href="#python-sklearn-neural-network" class="headerlink" title="python sklearn neural network"></a>python sklearn neural network</h2><h3 id="训练实例"><a href="#训练实例" class="headerlink" title="训练实例"></a>训练实例</h3><ol>
+<h2 id="python-sklearn-neural-network"><a href="#python-sklearn-neural-network" class="headerlink" title="python sklearn neural network"></a>python sklearn neural network</h2><h3 id="训练实例"><a href="#训练实例" class="headerlink" title="训练实例  "></a>训练实例 <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/"><img src="https://img.shields.io/badge/sklearn-1.3.0-blue?logo=sklearn" srcset="/img/loading.gif" lazyload alt="SKLearnVersion"></a> <a target="_blank" rel="noopener" href="https://python.org/"><img src="https://img.shields.io/badge/python-3.8-blue?logo=python" srcset="/img/loading.gif" lazyload alt="Static Badge"></a></h3><ol>
 <li><p>Class MLPClassifier：实现了MLP算法</p>
 <ol>
 <li>代码：<code>class sklearn.neural_network.MLPClassifier(hidden_layer_sizes=(100, ), activation=’relu’, solver=’adam’, alpha=0.0001,  batch_size=’auto’, learning_rate=’constant’, learning_rate_init=0.001, power_t=0.5, max_iter=200, shuffle=True,  random_state=None, tol=0.0001, verbose=False, warm_start=False, momentum=0.9, nesterovs_momentum=True,   early_stopping=False, validation_fraction=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-08, n_iter_no_change=10)[source] </code></li>
@@ -372,7 +388,7 @@
 </ol>
 </li>
 </ol>
-<h3 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h3><ol>
+<h3 id="画图显示训练结果"><a href="#画图显示训练结果" class="headerlink" title="画图显示训练结果 "></a>画图显示训练结果 <a target="_blank" rel="noopener" href="https://matplotlib.org/"><img src="https://img.shields.io/badge/matplotlib-3.7.2-blue?logo=matplotlib" srcset="/img/loading.gif" lazyload alt="MatplotlibVersion"></a></h3><ol>
 <li><p>figure</p>
 <p><code>fig = plt.figure(figsize=(12, 10))</code></p>
 <blockquote>
@@ -401,7 +417,7 @@
 <li><p>训练完成，结果如下：</p>
 <img src="/2023/10/01/2023-10-05-weekly-report/result.png" srcset="/img/loading.gif" lazyload class=""></li>
 </ol>
-<h2 id="python-gplearn"><a href="#python-gplearn" class="headerlink" title="python gplearn"></a>python gplearn</h2><h3 id="获取神经网络训练好的数据"><a href="#获取神经网络训练好的数据" class="headerlink" title="获取神经网络训练好的数据"></a>获取神经网络训练好的数据</h3><ol>
+<h2 id="python-gplearn"><a href="#python-gplearn" class="headerlink" title="python gplearn "></a>python gplearn <a target="_blank" rel="noopener" href="https://gplearn.readthedocs.io/en/stable/"><img src="https://img.shields.io/badge/gplearn-0.4.2-blue?logo=gplearn" srcset="/img/loading.gif" lazyload alt="GPLearnVersion"></a></h2><h3 id="获取神经网络训练好的数据"><a href="#获取神经网络训练好的数据" class="headerlink" title="获取神经网络训练好的数据"></a>获取神经网络训练好的数据</h3><ol>
 <li>导入<code>from gplearn.genetic import SymbolicRegressor</code></li>
 <li>定义：<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros">est_gp = SymbolicRegressor(<span class="hljs-attribute">population_size</span>=5000, <span class="hljs-attribute">generations</span>=20, <span class="hljs-attribute">stopping_criteria</span>=0.01,<br>                        <span class="hljs-attribute">p_crossover</span>=0.7, <span class="hljs-attribute">p_subtree_mutation</span>=0.1,<br>                        <span class="hljs-attribute">p_hoist_mutation</span>=0.05, <span class="hljs-attribute">p_point_mutation</span>=0.1,<br>                        <span class="hljs-attribute">max_samples</span>=0.9, <span class="hljs-attribute">verbose</span>=1,<br>                        <span class="hljs-attribute">parsimony_coefficient</span>=0.01, <span class="hljs-attribute">random_state</span>=0, function_set=(<span class="hljs-string">&#x27;add&#x27;</span>, <span class="hljs-string">&#x27;sub&#x27;</span>))<br></code></pre></td></tr></table></figure>
 <blockquote>
@@ -431,7 +447,7 @@
 </blockquote>
 </li>
 </ol>
-<h2 id="对符号回归的评价"><a href="#对符号回归的评价" class="headerlink" title="对符号回归的评价"></a>对符号回归的评价</h2><h2 id="Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds"><a href="#Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds" class="headerlink" title="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds"></a>Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds</h2><h3 id="多路径路由（负载均衡）检测"><a href="#多路径路由（负载均衡）检测" class="headerlink" title="多路径路由（负载均衡）检测"></a>多路径路由（负载均衡）检测</h3><ol>
+<h2 id="对符号回归的评价"><a href="#对符号回归的评价" class="headerlink" title="对符号回归的评价"></a>对符号回归的评价</h2><h2 id="Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds"><a href="#Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds" class="headerlink" title="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds "></a>Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds <a target="_blank" rel="noopener" href="https://www.usenix.org/conference/nsdi20/presentation/vermeulen"><img src="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI" srcset="/img/loading.gif" lazyload alt="DiamondDiscovery"></a></h2><h3 id="多路径路由（负载均衡）检测"><a href="#多路径路由（负载均衡）检测" class="headerlink" title="多路径路由（负载均衡）检测"></a>多路径路由（负载均衡）检测</h3><ol>
 <li>多路径路由：<blockquote>
 <p>[18] Brice Augustin, Timur Friedman, and Renata Teixeira. Measuring multipath routing in the Internet. IEEE&#x2F;ACM Transactions on Networking, 19(3):830–840, June 2011.</p>
 <p>[29] Christian E Hopps. Analysis of an equal-cost multi-path algorithm. RFC 2992 (Informational), November 2000.</p>
@@ -689,6 +705,19 @@
 
 
 
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
 
 
