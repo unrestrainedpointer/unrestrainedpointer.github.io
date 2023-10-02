@@ -16,16 +16,16 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="2023-10-05 Weekly ReportScheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述  搞清楚traceroute的底层原理2023-10-02  调研符号回归的评价方法  联系CAIDA询问工具问">
+    <meta name="description" content="2023-10-05 Weekly ReportScheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述，发现可行的领域  SDN Topology Discovery(There is a review)  Inte">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2023-10-05 weekly report">
 <meta property="og:url" content="http://example.com/2023/10/01/2023-10-05-weekly-report/index.html">
 <meta property="og:site_name" content="Meditions">
-<meta property="og:description" content="2023-10-05 Weekly ReportScheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述  搞清楚traceroute的底层原理2023-10-02  调研符号回归的评价方法  联系CAIDA询问工具问">
+<meta property="og:description" content="2023-10-05 Weekly ReportScheme2023-10-01  训练神经网络样本并进行符号回归  训练神经网络：生成数据集、使用MLPRegressor  训练符号回归：获取数据、使用SymbolicRegressor  将训练结果画出来    找云场景的论文和综述，发现可行的领域  SDN Topology Discovery(There is a review)  Inte">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/10/01/2023-10-05-weekly-report/result.png">
 <meta property="article:published_time" content="2023-10-01T06:13:16.000Z">
-<meta property="article:modified_time" content="2023-10-01T12:37:50.526Z">
+<meta property="article:modified_time" content="2023-10-01T14:50:20.489Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/10/01/2023-10-05-weekly-report/result.png">
@@ -198,7 +198,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.3k 字
+      6.2k 字
     </span>
   
 
@@ -207,7 +207,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      45 分钟
+      52 分钟
     </span>
   
 
@@ -254,7 +254,13 @@
 <li><input disabled="" type="checkbox"> 将训练结果画出来</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> 找云场景的论文和综述</li>
+<li><input checked="" disabled="" type="checkbox"> 找云场景的论文和综述，发现可行的领域<ul>
+<li><input checked="" disabled="" type="checkbox"> SDN Topology Discovery(There is a review)</li>
+<li><input checked="" disabled="" type="checkbox"> Internet’s Diamond Discovery(Only for IPv4, no for IPv6)</li>
+<li><input checked="" disabled="" type="checkbox"> Is there a diamond discovery for sdn layer?</li>
+<li><input checked="" disabled="" type="checkbox"> No for cloud</li>
+</ul>
+</li>
 <li><input disabled="" type="checkbox"> 搞清楚traceroute的底层原理<h3 id="2023-10-02"><a href="#2023-10-02" class="headerlink" title="2023-10-02"></a>2023-10-02</h3></li>
 <li><input disabled="" type="checkbox"> 调研符号回归的评价方法</li>
 <li><input disabled="" type="checkbox"> 联系CAIDA询问工具问题</li>
@@ -419,7 +425,21 @@
 </blockquote>
 </li>
 </ol>
-<h2 id="对符号回归的评价"><a href="#对符号回归的评价" class="headerlink" title="对符号回归的评价"></a>对符号回归的评价</h2>
+<h2 id="对符号回归的评价"><a href="#对符号回归的评价" class="headerlink" title="对符号回归的评价"></a>对符号回归的评价</h2><h2 id="Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds"><a href="#Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds" class="headerlink" title="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds"></a>Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds</h2><h3 id="多路径路由（负载均衡）检测"><a href="#多路径路由（负载均衡）检测" class="headerlink" title="多路径路由（负载均衡）检测"></a>多路径路由（负载均衡）检测</h3><ol>
+<li>多路径路由：<blockquote>
+<p>[18] Brice Augustin, Timur Friedman, and Renata Teixeira. Measuring multipath routing in the Internet. IEEE&#x2F;ACM Transactions on Networking, 19(3):830–840, June 2011.</p>
+<p>[29] Christian E Hopps. Analysis of an equal-cost multi-path algorithm. RFC 2992 (Informational), November 2000.</p>
+<p>[45] Kevin Vermeulen, Stephen D Strowes, Olivier Four-maux, and Timur Friedman. Multilevel MDA-Lite Paris traceroute. In Proc. ACM IMC ’18. ACM, 2018.</p>
+</blockquote>
+</li>
+<li>多路径路由检测<blockquote>
+<p>[17] Brice Augustin, Timur Friedman, and Renata Teixeira. Multipath tracing with Paris traceroute. In Proc. E2EMON ’07, 2007.</p>
+<p>多路径检测算法MDA——目前主流的检测算法[44]</p>
+<p>[44] Darryl Veitch, Brice Augustin, Renata Teixeira, and Timur Friedman. Failure control in multipath route tracing. In Proc. IEEE Infocom ’09, 2009.</p>
+</blockquote>
+</li>
+</ol>
+
             </div>
             <hr>
             <div>
@@ -438,6 +458,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/10/01/Reviews-of-SDN-Topology-Discovery/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Reviews of SDN Topology Discovery</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
