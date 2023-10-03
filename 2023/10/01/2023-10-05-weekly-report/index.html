@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://img.shields.io/badge/gplearn-0.4.2-blue?logo=gplearn">
 <meta property="og:image" content="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI">
 <meta property="article:published_time" content="2023-10-01T06:13:16.000Z">
-<meta property="article:modified_time" content="2023-10-02T09:37:11.454Z">
+<meta property="article:modified_time" content="2023-10-03T06:51:53.029Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Symbolic Regression">
 <meta name="twitter:card" content="summary_large_image">
@@ -214,7 +214,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.3k 字
+      8.8k 字
     </span>
   
 
@@ -223,7 +223,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      53 分钟
+      74 分钟
     </span>
   
 
@@ -284,8 +284,12 @@
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> 搞清楚traceroute的底层原理<h3 id="2023-10-02"><a href="#2023-10-02" class="headerlink" title="2023-10-02"></a>2023-10-02</h3></li>
-<li><input disabled="" type="checkbox"> 调研符号回归的评价方法</li>
-<li><input disabled="" type="checkbox"> 联系CAIDA询问工具问题</li>
+<li><input checked="" disabled="" type="checkbox"> 调研符号回归的评价方法</li>
+<li><input disabled="" type="checkbox"> 读论文Internet’s Diamond Discovery，搞清楚完整背景</li>
+<li><input disabled="" type="checkbox"> 联系CAIDA询问工具问题<h3 id="2023-20-03"><a href="#2023-20-03" class="headerlink" title="2023-20-03"></a>2023-20-03</h3></li>
+<li><input disabled="" type="checkbox"> 实现iris神经网络分类</li>
+<li><input disabled="" type="checkbox"> 读论文Internet’s Diamond Discovery，搞清楚完整背景（这个昨天没读，今天读）</li>
+<li><input disabled="" type="checkbox"> traceroute底层原理（这个也拖到了今天）</li>
 </ul>
 <h2 id="python-sklearn-neural-network"><a href="#python-sklearn-neural-network" class="headerlink" title="python sklearn neural network"></a>python sklearn neural network</h2><h3 id="训练实例"><a href="#训练实例" class="headerlink" title="训练实例  "></a>训练实例 <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/"><img src="https://img.shields.io/badge/sklearn-1.3.0-blue?logo=sklearn" srcset="/img/loading.gif" lazyload alt="SKLearnVersion"></a> <a target="_blank" rel="noopener" href="https://python.org/"><img src="https://img.shields.io/badge/python-3.8-blue?logo=python" srcset="/img/loading.gif" lazyload alt="Static Badge"></a></h3><ol>
 <li><p>Class MLPClassifier：实现了MLP算法</p>
@@ -447,7 +451,46 @@
 </blockquote>
 </li>
 </ol>
-<h2 id="对符号回归的评价"><a href="#对符号回归的评价" class="headerlink" title="对符号回归的评价"></a>对符号回归的评价</h2><h2 id="Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds"><a href="#Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds" class="headerlink" title="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds "></a>Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds <a target="_blank" rel="noopener" href="https://www.usenix.org/conference/nsdi20/presentation/vermeulen"><img src="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI" srcset="/img/loading.gif" lazyload alt="DiamondDiscovery"></a></h2><h3 id="多路径路由（负载均衡）检测"><a href="#多路径路由（负载均衡）检测" class="headerlink" title="多路径路由（负载均衡）检测"></a>多路径路由（负载均衡）检测</h3><ol>
+<h2 id="对符号回归的评价"><a href="#对符号回归的评价" class="headerlink" title="对符号回归的评价"></a>对符号回归的评价</h2><ol>
+<li><p>评价过拟合：为了考察模型的泛化能力，防止进入过拟合陷阱而产生</p>
+<blockquote>
+<p>判断过拟合的一种简单方法：在同一种性能指标下，训练结合的误差显著小于在测试集合上的误差</p>
+<p>采用均方根误差（RMSE）：易受到因变量个自变量数量级大小的影响，A模型中的因变量数量级是$10^3$而B模型的数量级是$10^0$，显然A，B模型的RMSE会相差较大但是这不能说明A的泛化能力强于B</p>
+<p>为了解决上述问题，除了进行归一化处理还可以利用另外一个衡量拟合程度的标准——决定系数</p>
+</blockquote>
+</li>
+<li><p>决定系数</p>
+<blockquote>
+<p>统计学中，决定系数反应了因变量y的波动在多大程度上能被自变量x的波动所描述</p>
+<p>假设一组数据集包括$y_1, y_2, …, y_n$共n个观察值，拟合而来的模型给出的预测值是$\hat y_1, \hat y_2,…,\hat y_n$</p>
+<p>于是回归残差定义为：$e_i&#x3D;y_i-\hat y_i$</p>
+<p>平均观察值为：$\overline y&#x3D;\frac{1}{n}\sum_{i&#x3D;1}^{n}y_i$</p>
+<p>总体离差平方和SST为：$SS_{tot}&#x3D;\sum_i(y_i-\overline y)^2$</p>
+<p>回归平方和SSR为：$SS_{reg}&#x3D;\sum_i(\hat y_i-\overline y)^2$</p>
+<p>决定系数$R^2&#x3D;\frac{SS_{reg}}{SS_{tot}}&#x3D;\frac{\sum_i(\hat y_i-\overline y)^2}{\sum_i(y_i-\overline y)^2}$</p>
+<p>对于训练数据来说，$R^2$取值范围介于[0, 1]，对于测试集合而言，其值还可能是负值。一般而言，$R^2$越高，说明自变量对因变量的解释程度越高，即拟合程度越好</p>
+</blockquote>
+</li>
+<li><p>对神经网络的符号回归决定系数：</p>
+<blockquote>
+<p>上文中的神经网络$R^2&#x3D;0.9667259351801608$</p>
+<p>上文中对神经网络进行的符号回归$R^2&#x3D;0.020983615047012516$</p>
+<p>符号回归的决定系数太小，因此我将遗传算法的代数从20改为200，看看$R^2$会有什么变化——等不起，太慢了</p>
+<p>于是改成了40，结果差不多0.018348212066569447</p>
+</blockquote>
+</li>
+<li><p>增加符号回归的运算——突然想起来除了加减之外还可以移位和比较大小，给它加进去</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">from gplearn.functions import make_function<br><br>def <span class="hljs-constructor">_logical(<span class="hljs-params">x1</span>, <span class="hljs-params">x2</span>, <span class="hljs-params">x3</span>, <span class="hljs-params">x4</span>)</span>:<br>    return np.where(x1 &gt; x2, x3, x4)<br><br>logical = make<span class="hljs-constructor">_function(<span class="hljs-params">function</span>=<span class="hljs-params">_logical</span>, <span class="hljs-params">name</span>=&#x27;<span class="hljs-params">logical</span>&#x27;, <span class="hljs-params">arity</span>=4)</span><br>gp = <span class="hljs-constructor">SymbolicTransformer(<span class="hljs-params">function_set</span>=[&#x27;<span class="hljs-params">add</span>&#x27;, &#x27;<span class="hljs-params">sub</span>&#x27;, &#x27;<span class="hljs-params">mul</span>&#x27;, &#x27;<span class="hljs-params">div</span>&#x27;, <span class="hljs-params">logical</span>])</span><br><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>根据上面的实例代码我在function_set中添加了max, min和logical</p>
+<p>$R^2&#x3D;0.949590338067221$</p>
+<p>得到的公式：sub(min(max(add(add(logical(logical(X1, X1, X0, 0.058), logical(X0, sub(X1, X0), 0.360, add(X0, X0)), -0.269, sub(add(sub(X0, X1), max(X0, 0.686)), X1)), add(X1, X0)), X1), sub(X0, min(0.300, -0.060))), add(add(sub(X0, X1), max(X0, 0.686)), logical(X1, X0, -0.835, X1))), sub(sub(sub(sub(sub(sub(min(add(X0, X0), min(X1, X0)), sub(logical(X0, X1, add(add(logical(logical(X1, X1, X0, 0.058), add(X1, add(X1, X0)), add(-0.269, X1), sub(add(sub(X0, X1), max(X0, 0.686)), X1)), add(X1, X0)), X1), min(X1, 0.744)), logical(X0, sub(X1, X0), 0.360, add(X0, X0)))), min(X1, sub(sub(-0.144, X1), X1))), min(add(-0.577, X1), sub(-0.144, X1))), sub(logical(X0, X1, add(add(logical(logical(X1, X1, X0, 0.058), add(X1, X0), -0.269, sub(add(sub(X0, X1), max(X0, 0.686)), X1)), add(X1, X0)), X1), logical(logical(X1, X1, X0, 0.058), add(X1, X0), add(-0.269, X1), sub(add(sub(X0, X1), max(X0, 0.686)), X1))), logical(X0, sub(X1, X0), 0.360, add(X0, X0)))), min(X1, sub(-0.144, X1))), sub(logical(-0.995, X1, X1, X0), logical(X0, sub(X1, X0), 0.360, add(min(add(X0, X0), min(X1, X0)), X0)))))</p>
+<p>本来想添加移位操作的，但是移位要求操作的类型必须是整数，而gplearn的SymbolicRegressor无法设置生成公式中所使用的常数的类型为整数</p>
+<p>交换机中不支持浮点运算，因此符号回归的代码可能需要自己调整</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds"><a href="#Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds" class="headerlink" title="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds "></a>Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds <a target="_blank" rel="noopener" href="https://www.usenix.org/conference/nsdi20/presentation/vermeulen"><img src="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI" srcset="/img/loading.gif" lazyload alt="DiamondDiscovery"></a></h2><h3 id="多路径路由（负载均衡）检测"><a href="#多路径路由（负载均衡）检测" class="headerlink" title="多路径路由（负载均衡）检测"></a>多路径路由（负载均衡）检测</h3><ol>
 <li>多路径路由：<blockquote>
 <p>[18] Brice Augustin, Timur Friedman, and Renata Teixeira. Measuring multipath routing in the Internet. IEEE&#x2F;ACM Transactions on Networking, 19(3):830–840, June 2011.</p>
 <p>[29] Christian E Hopps. Analysis of an equal-cost multi-path algorithm. RFC 2992 (Informational), November 2000.</p>
