@@ -16,27 +16,25 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds    Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds 多路径路由（负载均衡）检测 多路径路由： [18] Brice Augustin, Timur">
+    <meta name="description" content="Failure Control in Multipath Route Tracing  路由发现建模：我们把从源s到目标地址d的多路径路由建模成$G &#x3D; (V,E)$。该图G对于我们而言此时是未知的，我们要通过探测形成它。 我们从一个空图$\hat{G}&#x3D;({s},\phi)$开始一步步开始构建，边缘集$\Omega$表示$\hat{G}$中仍需进一步拓展的节点，初始时$\Om">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Diamond Miner">
-<meta property="og:url" content="http://example.com/2023/10/03/Diamond-Miner/index.html">
+<meta property="og:title" content="Multipath Routing Algorithm and Detecting">
+<meta property="og:url" content="http://example.com/2023/10/08/Multipath-Routing-Algorithm-and-Detecting/index.html">
 <meta property="og:site_name" content="Meditions">
-<meta property="og:description" content="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds    Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds 多路径路由（负载均衡）检测 多路径路由： [18] Brice Augustin, Timur">
+<meta property="og:description" content="Failure Control in Multipath Route Tracing  路由发现建模：我们把从源s到目标地址d的多路径路由建模成$G &#x3D; (V,E)$。该图G对于我们而言此时是未知的，我们要通过探测形成它。 我们从一个空图$\hat{G}&#x3D;({s},\phi)$开始一步步开始构建，边缘集$\Omega$表示$\hat{G}$中仍需进一步拓展的节点，初始时$\Om">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI">
-<meta property="og:image" content="https://img.shields.io/badge/multipath_routing-IEEE%2FACM_Transactions_on_Networking_11-yellow">
-<meta property="og:image" content="https://img.shields.io/badge/analysis_multipath_routing_algorithm-RFC2992-green">
-<meta property="og:image" content="https://img.shields.io/badge/MDA_paris_traceroute-IMC%2018-yellow">
-<meta property="og:image" content="https://img.shields.io/badge/MDA-INFOCOCM%2009-yellow">
-<meta property="og:image" content="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI">
-<meta property="article:published_time" content="2023-10-03T07:11:14.000Z">
-<meta property="article:modified_time" content="2023-10-03T07:47:33.783Z">
+<meta property="og:image" content="https://img.shields.io/badge/MDA-INFOCOM%2009-yellow">
+<meta property="og:image" content="https://img.shields.io/badge/MDA-INFOCOM%2009-yellow">
+<meta property="og:image" content="https://img.shields.io/badge/ECMA-RFC2991-yellow">
+<meta property="og:image" content="https://img.shields.io/badge/ECMA-RFC2992-yellow">
+<meta property="article:published_time" content="2023-10-08T06:48:23.000Z">
+<meta property="article:modified_time" content="2023-10-10T01:32:46.268Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI">
+<meta name="twitter:image" content="https://img.shields.io/badge/MDA-INFOCOM%2009-yellow">
   
   
-  <title>Diamond Miner - Meditions</title>
+  <title>Multipath Routing Algorithm and Detecting - Meditions</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -182,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Diamond Miner">
+            <span class="h2" id="subtitle" title="Multipath Routing Algorithm and Detecting">
               
             </span>
 
@@ -197,8 +195,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2023-10-03 15:11" pubdate>
-        2023年10月3日 下午
+      <time datetime="2023-10-08 14:48" pubdate>
+        2023年10月8日 下午
       </time>
     </span>
   
@@ -208,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      798 字
+      2.6k 字
     </span>
   
 
@@ -217,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      22 分钟
     </span>
   
 
@@ -254,27 +252,93 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Diamond Miner</h1>
+            <h1 style="display: none">Multipath Routing Algorithm and Detecting</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
-              <h1 id="Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds"><a href="#Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds" class="headerlink" title="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds"></a>Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds</h1><h2 id=""><a href="#" class="headerlink" title="    "></a><a target="_blank" rel="noopener" href="https://www.usenix.org/conference/nsdi20/presentation/vermeulen"><img src="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI" srcset="/img/loading.gif" lazyload alt="DiamondDiscovery"></a> <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/5671515"><img src="https://img.shields.io/badge/multipath_routing-IEEE%2FACM_Transactions_on_Networking_11-yellow" srcset="/img/loading.gif" lazyload alt="Static Badge"></a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2992"><img src="https://img.shields.io/badge/analysis_multipath_routing_algorithm-RFC2992-green" srcset="/img/loading.gif" lazyload alt="Static Badge"></a> <a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/3278532.3278536"><img src="https://img.shields.io/badge/MDA_paris_traceroute-IMC%2018-yellow" srcset="/img/loading.gif" lazyload alt="Static Badge"></a> <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=5062055"><img src="https://img.shields.io/badge/MDA-INFOCOCM%2009-yellow" srcset="/img/loading.gif" lazyload alt="Static Badge"></a></h2><h2 id="Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds-1"><a href="#Diamond-Miner-Comprehensive-Discovery-of-the-Internet’s-Topology-Diamonds-1" class="headerlink" title="Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds "></a>Diamond-Miner: Comprehensive Discovery of the Internet’s Topology Diamonds <a target="_blank" rel="noopener" href="https://www.usenix.org/conference/nsdi20/presentation/vermeulen"><img src="https://img.shields.io/badge/diamond_discovery-NSDI%2020-yellow?logo=NSDI" srcset="/img/loading.gif" lazyload alt="DiamondDiscovery"></a></h2><h3 id="多路径路由（负载均衡）检测"><a href="#多路径路由（负载均衡）检测" class="headerlink" title="多路径路由（负载均衡）检测"></a>多路径路由（负载均衡）检测</h3><ol>
-<li>多路径路由：<blockquote>
-<p>[18] Brice Augustin, Timur Friedman, and Renata Teixeira. Measuring multipath routing in the Internet. IEEE&#x2F;ACM Transactions on Networking, 19(3):830–840, June 2011. </p>
-<p>[29] Christian E Hopps. Analysis of an equal-cost multi-path algorithm. RFC 2992 (Informational), November 2000. </p>
-<p>[45] Kevin Vermeulen, Stephen D Strowes, Olivier Four-maux, and Timur Friedman. Multilevel MDA-Lite Paris traceroute. In Proc. ACM IMC ’18. ACM, 2018.</p>
+              <h2 id=""><a href="#" class="headerlink" title=""></a><a target="_blank" rel="noopener" href="https://dblp.org/rec/conf/infocom/VeitchATF09.html"><img src="https://img.shields.io/badge/MDA-INFOCOM%2009-yellow" srcset="/img/loading.gif" lazyload alt="Static Badge"></a></h2><h2 id="Failure-Control-in-Multipath-Route-Tracing"><a href="#Failure-Control-in-Multipath-Route-Tracing" class="headerlink" title="Failure Control in Multipath Route Tracing "></a>Failure Control in Multipath Route Tracing <a target="_blank" rel="noopener" href="https://dblp.org/rec/conf/infocom/VeitchATF09.html"><img src="https://img.shields.io/badge/MDA-INFOCOM%2009-yellow" srcset="/img/loading.gif" lazyload alt="Static Badge"></a></h2><ol>
+<li>路由发现建模：我们把从源s到目标地址d的多路径路由建模成$G &#x3D; (V,E)$。该图G对于我们而言此时是未知的，我们要通过探测形成它。</li>
+<li>我们从一个空图$\hat{G}&#x3D;({s},\phi)$开始一步步开始构建，边缘集$\Omega$表示$\hat{G}$中仍需进一步拓展的节点，初始时$\Omega&#x3D;{s}$，终止条件是$\Omega&#x3D;\phi, \hat{G}&#x3D;G$</li>
+<li>在边缘集中随机选一个节点v，枚举它的后继极点集$\sigma(v)&#x3D;{v’\in V:(v, v’)\in E}$，注意此时的$\sigma(v)$我们是不知道的，只是在逻辑上我们是要枚举其中的节点，我们实际得到的是它的子集$C_v\in \sigma(v)$。<ol>
+<li>对于发现的每一个后继$c\in C_v$，如果是新节点就加进$\hat{V}$，即$c\notin\hat{V}\Rightarrow\hat{V}\leftarrow\hat{V}\cup{c}$，同时如果不是目的地，则再把c加入$\Omega$，</li>
+<li>如此进行知道$\Omega&#x3D;\phi$</li>
+<li>如何得到v的后继节点c？$\Rightarrow$per-node discovery操作：经过一系列的设置，让探测包经过v发送到v的下一跳。</li>
+<li>我们设随机变量$X_{v,i}$表示$trace_i$上的节点v的下一跳的可能返回结果，并且假设它服从$\sigma(v)$上的均匀分布，且对于不同的i，$X_{v, i}$相互独立</li>
+</ol>
+</li>
+<li>成功和失败概率<ol>
+<li>失败概率$Pr(\hat{G})\not &#x3D;{G}$：从源到目的至少有一条路径被探测算法丢失了</li>
+<li>对于单个节点$v_i$，设其失败概率为$\beta_{K_i}$<ol>
+<li>唯一影响$\beta_{K_i}$的量是$v_i$后继节点的数量$K_i&#x3D;|\sigma(v_i)|$</li>
+<li>因此单个节点成功的概率为：$1-\beta_{K_i}$</li>
+<li>由于各个节点的探测相互独立，因此全部节点成功的概率为：$\prod_i(1-\beta_{K_i})$</li>
+<li>因此整个算法的失败概率为：$\beta_{all}&#x3D;1-\prod_i(1-\beta_{K_i})$</li>
+</ol>
+</li>
+<li>接下来考虑单个节点$\beta_{K}$（省略了i）的求解：<ol>
+<li>对单个节点探测失败是指对于该节点发现了少于$K$个后继</li>
+<li>设算法在某一个节点的$K$个后继节点中发现$k$个的概率，记为$t_K^k$</li>
+<li>因此在某一个节点失败的概率：$\beta_K&#x3D;\sum_{k&#x3D;1}^{K-1}t_K^k, K&gt;1$</li>
+<li>对于某个节点而言，已经发现了$k$个节点之后再发现一个新节点的概率是：$q_k&#x3D;\frac{K-k}{K}$，停留在第$k$个节点的概率为$p_k&#x3D;1-q_k&#x3D;\frac{k}{K}$</li>
+<li>定义状态$(i, k)$表示在某一个节点处尝试了$i$次后发现了$k$个后继节点的概率</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>如何在已知某个节点的情况下探测其后继节点？<ol>
+<li>MDA一跳一跳进行直到目的地，在每一跳，算法用相关的流标记每一个接口</li>
+<li>假设一条$trace&#x3D;{s, n_1, n_2,…,d}$</li>
+<li>对于$n_i\in trace$，MDA从s发出多次以该节点为目的的探测，每次探测改变流标识。每次发现的节点也用流来标记。</li>
+</ol>
+</li>
+</ol>
+<h2 id="My-Idea-of-yarrp6-MDA"><a href="#My-Idea-of-yarrp6-MDA" class="headerlink" title="My Idea of yarrp6 MDA"></a>My Idea of yarrp6 MDA</h2><ol>
+<li><p>IPv4和IPv6的multipath routing算法有哪些区别 <a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc2991"><img src="https://img.shields.io/badge/ECMA-RFC2991-yellow" srcset="/img/loading.gif" lazyload alt="Static Badge"></a> <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc2992"><img src="https://img.shields.io/badge/ECMA-RFC2992-yellow" srcset="/img/loading.gif" lazyload alt="Static Badge"></a></p>
+<ol>
+<li>IPv4 multipath routing：<ol>
+<li>Equal-Cost Multi-Path Algorithm<blockquote>
+<p>使用数据包头部标识中的一些字段形成hash，根据hash的结果来选下一跳的路由。</p>
+<p>如果hash函数的结果在后继路径上是均匀分布的，就称为Equal-Cost Multi-Path Algorithm，否则称为Non-Equal-Cost Multi-Path Algorithm</p>
+<p>Modulo-N Hash: 选取头部字段进行模n哈希，当添加或删除下一跳的时候，$\frac{N-1}{N}$个流会被影响</p>
+<p>Hash-Threshold: Hash-Threshold路由器首先通过对标识流的数据包报头字段执行散列来选择密钥。在哈希函数的输出空间中，为N个下一跳分配了唯一的区域。通过比较哈希值与区域边界，路由器可以确定哈希值属于哪个区域，从而确定使用哪个下一跳。这种方法的优点是，当添加或删除下一跳时，只影响区域边界(或阈值)附近的流。对于ECMP，哈希阈值的查找可以通过一个简单的除法(hash_value &#x2F; fixed_region_size)来完成。当添加或删除下一跳时，所有流的1&#x2F;4到1&#x2F;2之间会改变路径。对该方法的分析可以在[2992]中找到。</p>
+<p> Highest Random Weight (HRW): 路由器通过对标识流的包头字段和下一跳地址执行哈希运算，为每一下一跳计算一个密钥。路由器选择结果键值最高的下一跳[4]。这样做的好处是可以最大限度地减少受下一跳添加或删除影响的流的数量(只有1&#x2F;N)，但成本大约是模N散列的N倍。</p>
+<p>实现中通常采用五元组{dest addr, source addr, protocol, dest port, source port}</p>
 </blockquote>
 </li>
-<li>多路径路由检测<blockquote>
-<p>[17] Brice Augustin, Timur Friedman, and Renata Teixeira. Multipath tracing with Paris traceroute. In Proc. E2EMON ’07, 2007.</p>
-<p>多路径检测算法MDA——目前主流的检测算法[44]</p>
-<p>[44] Darryl Veitch, Brice Augustin, Renata Teixeira, and Timur Friedman. Failure control in multipath route tracing. In Proc. IEEE Infocom ’09, 2009.</p>
-</blockquote>
+<li>Non-Equal-Cost Multi-Path Algorithm</li>
+</ol>
+</li>
+<li>IPv6 multipath routing：</li>
+<li>区别：<ol>
+<li>在IPv6的情况下，由于next-headers的位置和长度可变，传输层信息不方便提取;所有实现都必须能够跳过next-headers，即使它们很少出现在实际流量中。事实上，[RFC2460]表明，除了逐跳选项外，next-headers通常不会被网络中的中间节点检查。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>MDA要如何在IPv6中实现</p>
+<ol>
+<li>参见<a target="_blank" rel="noopener" href="https://unrestrainedpointer.github.io/2023/10/06/Load-Balancing-in-IPv4-and-IPv6/">博客</a></li>
+</ol>
+</li>
+<li><p>MDA</p>
+</li>
+<li><p>MDA如何在yarrp4中实现</p>
+<ol>
+<li>见上文</li>
+</ol>
+</li>
+<li><p>MDA如何在yarrp6中实现</p>
+</li>
+</ol>
+<h2 id="云场景下的多路径路由"><a href="#云场景下的多路径路由" class="headerlink" title="云场景下的多路径路由"></a>云场景下的多路径路由</h2><ol>
+<li>信息来源：<a target="_blank" rel="noopener" href="https://cloud.google.com/network-connectivity/docs/vpn/concepts/order-of-routes">https://cloud.google.com/network-connectivity/docs/vpn/concepts/order-of-routes</a><ol>
+<li>该文档说明：Google Cloud routes采用基于hash的ECMP，所以同一个流的包走同一条路线</li>
+</ol>
 </li>
 </ol>
 
@@ -297,18 +361,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/05/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E4%BD%9C%E4%B8%9A/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">人工智能程序设计作业</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/10/03/sklearn-versus-gplearn/">
-                        <span class="hidden-mobile">sklearn versus gplearn</span>
+                      <a href="/2023/10/06/Load-Balancing-in-IPv4-and-IPv6/">
+                        <span class="hidden-mobile">Load Balancing in IPv4 and IPv6</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -330,8 +388,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://example.com/2023/10/03/Diamond-Miner/';
-          this.page.identifier = '/2023/10/03/Diamond-Miner/';
+          this.page.url = 'http://example.com/2023/10/08/Multipath-Routing-Algorithm-and-Detecting/';
+          this.page.identifier = '/2023/10/08/Multipath-Routing-Algorithm-and-Detecting/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
